@@ -2,13 +2,9 @@
 import { Dispatch, FunctionComponent, SetStateAction, useState } from "react";
 
 import { templateType } from "../../public/graphTemplate";
+import { TemplateSetterProps } from "@/app/types/types";
 
-interface PageSizeSetterProps {
-  template: templateType;
-  templateSetter: Dispatch<SetStateAction<templateType>>;
-}
-
-export const PageSizeSetter: FunctionComponent<PageSizeSetterProps> = ({
+export const PageSizeSetter: FunctionComponent<TemplateSetterProps> = ({
   template,
   templateSetter,
 }) => {
@@ -30,7 +26,7 @@ export const PageSizeSetter: FunctionComponent<PageSizeSetterProps> = ({
   return (
     <div className="flex gap-8 items-center">
       <div>Set your desired page size:</div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1">
         <label htmlFor="width"> Width</label>
         <input
           type="number"
@@ -39,7 +35,7 @@ export const PageSizeSetter: FunctionComponent<PageSizeSetterProps> = ({
           onInput={widthInputHandler}
         />
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1">
         <label htmlFor="height"> Height</label>
         <input
           type="number"

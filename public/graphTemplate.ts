@@ -4,6 +4,10 @@ export const baseTemplate = {
       width: 0,
       height: 0,
     },
+    cursorMove: {
+      x: 0,
+      y: 0,
+    },
   },
 };
 
@@ -12,6 +16,10 @@ export interface templateType {
     pageSize: {
       width: number;
       height: number;
+    };
+    cursorMove: {
+      x: number;
+      y: number;
     };
   };
 }

@@ -16,6 +16,7 @@
     "child_process": "^1.0.2",
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.3",
+    "fs": "^0.0.1-security",
     "lodash": "^4.17.21",
     "next": "13.2.3",
     "postcss": "^8.4.14",

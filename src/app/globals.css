@@ -109,3 +109,8 @@ a {
     color-scheme: dark;
   }
 }
+
+input {
+  border-radius: 15px;
+  padding: 8px;
+}
