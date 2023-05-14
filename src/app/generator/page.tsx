@@ -5,10 +5,13 @@ import { baseTemplate } from "../../../public/graphTemplate";
 import { generateCode } from "@/utils/templateSetter";
 import CursorMove from "@/components/CursorMove";
 import Image from "next/image";
+import GraphEditor from "@/components/graphs/GraphEditor";
 
 export default function Generator() {
   const [gleData, setGleData] = useState(baseTemplate);
   const [generatedImage, setGeneratedImage] = useState("");
+  const [graphs, setGraphs] = useState<any>([]);
+  const [graphNumber, setGraphNumber] = useState(0);
 
   const callGeneration = async () => {
     try {
@@ -28,23 +31,51 @@ export default function Generator() {
         method: "GET",
       });
       const cucc = await res.text();
-      console.log(cucc);
       setGeneratedImage(`data:image/png;base64,${cucc}`);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const removeGraph = (id: number) => {
+    setGraphs((graphs: any) => graphs.filter((graph: any) => graph.id !== id));
+  };
+
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col gap-8">
       <div className="p-4 text-3xl flex justify-center">GLE code generator</div>
-      <div className="flex">
+      <div className="flex gap-4">
         <div className="flex flex-col gap-2 basis-1/2">
           <div>
             <PageSizeSetter template={gleData} templateSetter={setGleData} />
           </div>
           <div>
             <CursorMove template={gleData} templateSetter={setGleData} />
+          </div>
+          <div className="flex flex-col gap-4">
+            {graphs.map((graph: any) => {
+              return (
+                <div key={graph.id}>
+                  <GraphEditor
+                    graph={graph}
+                    graphSetter={setGraphs}
+                    removeGraph={removeGraph}
+                  />
+                </div>
+              );
+            })}
+            <button
+              className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
+              onClick={() => {
+                setGraphs([
+                  ...graphs,
+                  { id: graphNumber, message: `I'm number ${graphNumber}` },
+                ]);
+                setGraphNumber(graphNumber + 1);
+              }}
+            >
+              Add graph
+            </button>
           </div>
         </div>
         <div className="flex basis-1/2">

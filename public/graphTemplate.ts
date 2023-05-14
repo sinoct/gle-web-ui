@@ -1,4 +1,4 @@
-export const baseTemplate = {
+export const baseTemplate: templateType = {
   data: {
     pageSize: {
       width: 0,
@@ -8,8 +8,17 @@ export const baseTemplate = {
       x: 0,
       y: 0,
     },
+    graph: null,
   },
 };
+
+interface singleGraphTemplate {
+  size: {
+    width: number;
+    height: number;
+  };
+  data: string;
+}
 
 export interface templateType {
   data: {
@@ -21,5 +30,6 @@ export interface templateType {
       x: number;
       y: number;
     };
+    graph: [singleGraphTemplate] | null;
   };
 }

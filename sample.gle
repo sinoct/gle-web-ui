@@ -1,3 +1,8 @@
-size 0 0 
+size 18 24 
 
-amove 0 0 
+amove 2 10 
+begin graph
+    size 14 12
+    data Adat1.txt d1=c1,c3
+    d1 line marker fcircle
+end graph
