@@ -6,9 +6,10 @@ export const generateText = (data: templateType) => {
   if (params.cursorMove) {
     text += `\namove ${params.cursorMove.x} ${params.cursorMove.y} \n`;
   }
-  text +=
-    "begin graph\n    size 14 12\n    data Adat1.txt d1=c1,c3\n    d1 line marker fcircle\n";
-  text += "end graph";
+  if (params.graph) {
+    text += `begin graph\n  size ${params.graph[0].size.width} ${params.graph[0].size.height}\n   data data.txt d1=c${params.graph[0].columnX},c${params.graph[0].columnY}\n   d1 line marker fcircle \n`;
+    text += "end graph";
+  }
   return text;
 };
 

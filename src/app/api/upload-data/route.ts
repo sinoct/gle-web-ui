@@ -4,17 +4,11 @@ import { writeFileSync } from "fs";
 export async function POST(req: NextRequest, res: NextResponse) {
   console.log("TXT UPLOAD");
   const tmp = await req.json();
-  console.log("TMP", tmp);
-  const file = tmp.get("file");
-  if (file instanceof File) {
-    console.log(file.name);
-  }
-  const cucc = file?.valueOf();
-  console.log(typeof file, file);
-  console.log(cucc?.constructor());
+  console.log("TMP", tmp, typeof tmp);
   try {
     console.log("writing file");
-    //writeFileSync("data.txt", file);
+    const buffer = Buffer.from(tmp.file, "base64");
+    writeFileSync("data.txt", buffer);
   } catch (error) {
     console.log("write error", error);
   }

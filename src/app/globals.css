@@ -114,3 +114,10 @@ input {
   border-radius: 15px;
   padding: 8px;
 }
+
+.card {
+  border: 1px solid black;
+  border-radius: 15px;
+  background-color: #333333;
+  padding: 16px;
+}

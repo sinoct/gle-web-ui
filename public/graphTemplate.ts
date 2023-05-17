@@ -12,12 +12,15 @@ export const baseTemplate: templateType = {
   },
 };
 
-interface singleGraphTemplate {
+export interface singleGraphTemplate {
+  id: number;
   size: {
     width: number;
     height: number;
   };
   data: string;
+  columnX: number;
+  columnY: number;
 }
 
 export interface templateType {
@@ -30,6 +33,6 @@ export interface templateType {
       x: number;
       y: number;
     };
-    graph: [singleGraphTemplate] | null;
+    graph: singleGraphTemplate[] | null;
   };
 }

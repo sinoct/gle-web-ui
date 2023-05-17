@@ -1,9 +1,10 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import Image from "next/image";
 import DataInput from "./DataInput";
+import { singleGraphTemplate } from "../../../public/graphTemplate";
 
 interface GraphEditorProps {
-  graph: any;
+  graph: singleGraphTemplate;
   graphSetter: any;
   removeGraph: any;
 }
@@ -13,13 +14,7 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
   graphSetter,
   removeGraph,
 }) => {
-  const [currentGraph, setCurrentGraph] = useState({
-    size: {
-      width: 10,
-      height: 10,
-    },
-    data: [],
-  });
+  const [currentGraph, setCurrentGraph] = useState(graph);
   const widthInputHandler = (newValue: any) => {
     newValue;
     setCurrentGraph({
@@ -39,9 +34,31 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
       },
     });
   };
+
+  const columnXInputHandler = (newValue: any) => {
+    setCurrentGraph({
+      ...currentGraph,
+      columnX: newValue.target.value,
+    });
+  };
+
+  const columnYInputHandler = (newValue: any) => {
+    setCurrentGraph({
+      ...currentGraph,
+      columnY: newValue.target.value,
+    });
+  };
+
+  useEffect(() => {
+    graphSetter(currentGraph);
+  }, [currentGraph]);
+
   return (
     <div className="relative">
-      <div className="absolute right-5" onClick={() => removeGraph(graph.id)}>
+      <div
+        className="absolute right-5 cursor-pointer"
+        onClick={() => removeGraph(graph.id)}
+      >
         <Image
           src="/assets/cross.png"
           alt="generated image"
@@ -69,10 +86,33 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
           onInput={heightInputHandler}
         />
       </div>
-      {/*<div>
-        Attach your data stream:
-        <DataInput />
-  </div> */}
+      <div>
+        <div>
+          Attach your data stream:
+          <DataInput />
+        </div>
+        <div>
+          Which columns should the graph show?
+          <div className="flex">
+            <div>
+              X axis:
+              <input
+                type="number"
+                onInput={columnXInputHandler}
+                value={currentGraph.columnX}
+              />
+            </div>
+            <div>
+              Y axis:
+              <input
+                type="number"
+                onInput={columnYInputHandler}
+                value={currentGraph.columnY}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

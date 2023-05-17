@@ -2,7 +2,7 @@ size 18 24
 
 amove 2 10 
 begin graph
-    size 14 12
-    data Adat1.txt d1=c1,c3
-    d1 line marker fcircle
+  size 14 8
+   data data.txt d1=c1,3
+   d1 line marker fcircle 
 end graph

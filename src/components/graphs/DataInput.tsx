@@ -3,22 +3,25 @@ import { ChangeEvent, FunctionComponent, useState } from "react";
 const DataInput: FunctionComponent = () => {
   const uploadDataStream = async (file: any) => {
     try {
-      console.log("HELLO");
-      const formData = new FormData();
-      formData.set("file", file);
-      const res = await fetch("/api/upload-data", {
+      await fetch("/api/upload-data", {
         method: "POST",
-        body: formData,
+        body: JSON.stringify({ file }),
       });
-      console.log(res);
     } catch (e) {
       console.log(e);
     }
   };
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      console.log("HALIKA", event.target.files[0]);
-      uploadDataStream(event.target.files[0]);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        let encoded = reader!.result!.toString().replace(/^data:(.*,)?/, "");
+        if (encoded.length % 4 > 0) {
+          encoded += "=".repeat(4 - (encoded.length % 4));
+        }
+        uploadDataStream(encoded);
+      };
+      reader.readAsDataURL(event.target.files[0]);
     }
   };
   return (
