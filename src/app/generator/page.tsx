@@ -121,8 +121,8 @@ export default function Generator() {
         className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
         onClick={() => {
           generateCode(gleData);
-          //callGeneration();
-          //getImage();
+          callGeneration();
+          getImage();
         }}
       >
         Generate
