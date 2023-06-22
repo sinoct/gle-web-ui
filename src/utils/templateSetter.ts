@@ -7,8 +7,17 @@ export const generateText = (data: templateType) => {
     text += `\namove ${params.cursorMove.x} ${params.cursorMove.y} \n`;
   }
   if (params.graph) {
-    text += `begin graph\n  size ${params.graph[0].size.width} ${params.graph[0].size.height}\n   data data.txt d1=c${params.graph[0].columnX},c${params.graph[0].columnY}\n   d1 line marker fcircle \n`;
-    text += "end graph";
+    params.graph.map((currentGraph, index) => {
+      text += `begin graph\n  size ${currentGraph.size.width} ${
+        currentGraph.size.height
+      }\n   data ${currentGraph.fileName} d${index + 1}=c${
+        currentGraph.columnX
+      },c${currentGraph.columnY}\n`;
+      text += `d${index + 1} ${
+        currentGraph.settings?.line ? "line" : ""
+      } marker ${currentGraph.settings?.marker} \n`;
+      text += "end graph";
+    });
   }
   return text;
 };
@@ -35,7 +44,7 @@ export const downloadFile = async (text: string) => {
     console.log(e);
   }
   link.href = URL.createObjectURL(file);
-  link.download = "sample.gle";
+  link.download = "graph.gle";
   link.click();
 };
 

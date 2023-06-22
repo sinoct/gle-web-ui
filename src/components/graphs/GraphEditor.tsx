@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FunctionComponent, useEffect, useState } from "react";
 import Image from "next/image";
 import DataInput from "./DataInput";
 import { singleGraphTemplate } from "../../../public/graphTemplate";
+import markers from "@/app/types/lineParams/markers";
 
 interface GraphEditorProps {
   graph: singleGraphTemplate;
@@ -15,6 +17,7 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
   removeGraph,
 }) => {
   const [currentGraph, setCurrentGraph] = useState(graph);
+
   const widthInputHandler = (newValue: any) => {
     newValue;
     setCurrentGraph({
@@ -35,6 +38,13 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
     });
   };
 
+  const fileNameChangeHandler = (newValue: string) => {
+    setCurrentGraph({
+      ...currentGraph,
+      fileName: newValue,
+    });
+  };
+
   const columnXInputHandler = (newValue: any) => {
     setCurrentGraph({
       ...currentGraph,
@@ -46,6 +56,26 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
     setCurrentGraph({
       ...currentGraph,
       columnY: newValue.target.value,
+    });
+  };
+
+  const lineChangeHandler = (newValue: any) => {
+    setCurrentGraph({
+      ...currentGraph,
+      settings: {
+        ...currentGraph.settings,
+        line: newValue.target.checked,
+      },
+    });
+  };
+  const markerSelectHandler = (newValue: any) => {
+    console.log(newValue.target.value);
+    setCurrentGraph({
+      ...currentGraph,
+      settings: {
+        ...currentGraph.settings,
+        marker: newValue.target.value,
+      },
     });
   };
 
@@ -89,7 +119,7 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
       <div>
         <div>
           Attach your data stream:
-          <DataInput />
+          <DataInput fileNameSetter={fileNameChangeHandler} />
         </div>
         <div>
           Which columns should the graph show?
@@ -110,6 +140,31 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
                 value={currentGraph.columnY}
               />
             </div>
+          </div>
+          <div>Graph Settings:</div>
+          <div className="flex-col">
+            <label className="flex gap-4 items-center">
+              Line:
+              <input
+                type="checkbox"
+                checked={currentGraph.settings?.line}
+                onChange={lineChangeHandler}
+              />
+            </label>
+            <label className="flex gap-4 items-center">
+              Marker:
+              <select
+                name="markers"
+                id="markerID"
+                onChange={markerSelectHandler}
+              >
+                {markers.map((marker) => (
+                  <option key={marker} value={marker}>
+                    {marker}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
         </div>
       </div>

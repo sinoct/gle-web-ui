@@ -1,9 +1,13 @@
 import { ChangeEvent, FunctionComponent, useState } from "react";
 
-const DataInput: FunctionComponent = () => {
-  const uploadDataStream = async (file: any) => {
+interface DataInputProps {
+  fileNameSetter: any;
+}
+
+const DataInput: FunctionComponent<DataInputProps> = ({ fileNameSetter }) => {
+  const uploadDataStream = async (file: any, fileName: string) => {
     try {
-      await fetch("/api/upload-data", {
+      await fetch(`/api/upload-data?file-name=${fileName}`, {
         method: "POST",
         body: JSON.stringify({ file }),
       });
@@ -13,13 +17,15 @@ const DataInput: FunctionComponent = () => {
   };
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
+      console.log(event.target.files[0]);
       const reader = new FileReader();
       reader.onloadend = () => {
         let encoded = reader!.result!.toString().replace(/^data:(.*,)?/, "");
         if (encoded.length % 4 > 0) {
           encoded += "=".repeat(4 - (encoded.length % 4));
         }
-        uploadDataStream(encoded);
+        uploadDataStream(encoded, event.target.files![0]!.name);
+        fileNameSetter(event.target.files![0]!.name);
       };
       reader.readAsDataURL(event.target.files[0]);
     }

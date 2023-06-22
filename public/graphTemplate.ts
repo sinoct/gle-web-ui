@@ -1,8 +1,8 @@
 export const baseTemplate: templateType = {
   data: {
     pageSize: {
-      width: 0,
-      height: 0,
+      width: 20,
+      height: 20,
     },
     cursorMove: {
       x: 0,
@@ -19,8 +19,13 @@ export interface singleGraphTemplate {
     height: number;
   };
   data: string;
+  fileName: string;
   columnX: number;
   columnY: number;
+  settings?: {
+    line?: boolean;
+    marker?: string;
+  };
 }
 
 export interface templateType {

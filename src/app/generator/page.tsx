@@ -16,6 +16,12 @@ export default function Generator() {
   const [graphs, setGraphs] = useState<singleGraphTemplate[] | []>([]);
   const [graphNumber, setGraphNumber] = useState(0);
 
+  const handleGenerateButtonClick = async () => {
+    generateCode(gleData);
+    await callGeneration();
+    await getImage();
+  };
+
   const callGeneration = async () => {
     try {
       const res = await fetch("/api/generate-image", {
@@ -94,6 +100,7 @@ export default function Generator() {
                     id: graphNumber,
                     size: { width: 0, height: 0 },
                     data: "",
+                    fileName: "data.txt",
                     columnX: 0,
                     columnY: 0,
                   },
@@ -119,11 +126,7 @@ export default function Generator() {
 
       <button
         className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
-        onClick={() => {
-          generateCode(gleData);
-          callGeneration();
-          getImage();
-        }}
+        onClick={handleGenerateButtonClick}
       >
         Generate
       </button>
