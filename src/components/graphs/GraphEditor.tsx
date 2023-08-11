@@ -4,6 +4,7 @@ import Image from "next/image";
 import DataInput from "./DataInput";
 import { singleGraphTemplate } from "../../../public/graphTemplate";
 import MarkerEditor from "./MarkerEditor";
+import ColorPicker from "./ColorPicker";
 
 interface GraphEditorProps {
   graph: singleGraphTemplate;
@@ -74,6 +75,17 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
       settings: {
         ...currentGraph.settings,
         marker: newValue.target.value,
+      },
+    });
+  };
+
+  const colorSelectHandler = (newValue: any) => {
+    console.log(newValue.target.value);
+    setCurrentGraph({
+      ...currentGraph,
+      settings: {
+        ...currentGraph.settings,
+        color: newValue.target.value,
       },
     });
   };
@@ -153,6 +165,10 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
             <MarkerEditor
               markerUpdater={markerSelectHandler}
               selectedMarker={currentGraph.settings?.marker as string}
+            />
+            <ColorPicker
+              colorUpdater={colorSelectHandler}
+              selectedColor={currentGraph.settings?.color as string}
             />
           </div>
         </div>

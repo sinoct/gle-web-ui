@@ -103,6 +103,11 @@ export default function Generator() {
                     fileName: "data.txt",
                     columnX: 0,
                     columnY: 0,
+                    settings: {
+                      line: false,
+                      marker: "fcircle",
+                      color: "black",
+                    },
                   },
                 ]);
                 setGraphNumber(graphNumber + 1);

@@ -25,6 +25,7 @@ export interface singleGraphTemplate {
   settings?: {
     line?: boolean;
     marker?: string;
+    color?: string;
   };
 }
 

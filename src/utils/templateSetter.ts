@@ -15,7 +15,9 @@ export const generateText = (data: templateType) => {
       },c${currentGraph.columnY}\n`;
       text += `d${index + 1} ${
         currentGraph.settings?.line ? "line" : ""
-      } marker ${currentGraph.settings?.marker} \n`;
+      } marker ${currentGraph.settings?.marker} color ${
+        currentGraph.settings?.color
+      }\n`;
       text += "end graph";
     });
   }
