@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 import Image from "next/image";
 import DataInput from "./DataInput";
 import { singleGraphTemplate } from "../../../public/graphTemplate";
-import markers from "@/app/types/lineParams/markers";
+import MarkerEditor from "./MarkerEditor";
 
 interface GraphEditorProps {
   graph: singleGraphTemplate;
@@ -69,7 +69,6 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
     });
   };
   const markerSelectHandler = (newValue: any) => {
-    console.log(newValue.target.value);
     setCurrentGraph({
       ...currentGraph,
       settings: {
@@ -151,20 +150,10 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
                 onChange={lineChangeHandler}
               />
             </label>
-            <label className="flex gap-4 items-center">
-              Marker:
-              <select
-                name="markers"
-                id="markerID"
-                onChange={markerSelectHandler}
-              >
-                {markers.map((marker) => (
-                  <option key={marker} value={marker}>
-                    {marker}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <MarkerEditor
+              markerUpdater={markerSelectHandler}
+              selectedMarker={currentGraph.settings?.marker as string}
+            />
           </div>
         </div>
       </div>

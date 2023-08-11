@@ -1,8 +1,8 @@
-size 18 24 
+size 20 20 
 
-amove 2 10 
+amove 0 0 
 begin graph
-  size 14 12
-   data Adat1.txt d1=c1,c3
-d1 line marker circle 
+  size 20 10
+   data data.txt d1=c0,c0
+d1 line marker handpen 
 end graph
