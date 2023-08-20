@@ -21,12 +21,14 @@ const MarkerEditor: FunctionComponent<MarkerEditorProps> = ({
           </option>
         ))}
       </select>
-      <Image
-        width={32}
-        height={32}
-        src={`/assets/markers/${selectedMarker}.png`}
-        alt=""
-      />
+      {selectedMarker && (
+        <Image
+          width={32}
+          height={32}
+          src={`/assets/markers/${selectedMarker}.png`}
+          alt=""
+        />
+      )}
     </label>
   );
 };

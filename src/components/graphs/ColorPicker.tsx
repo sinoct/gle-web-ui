@@ -11,20 +11,19 @@ const ColorPicker: FunctionComponent<MarkerEditorProps> = ({
   colorUpdater,
   selectedColor,
 }) => {
-  console.log(selectedColor);
   return (
     <label className="flex gap-4 items-center">
       Color:
       <select name="colors" id="colorID" onChange={colorUpdater}>
-        {colors.map((color) => (
-          <option key={color.name} value={color.color}>
-            {color.name}
+        {Object.keys(colors).map((key, value) => (
+          <option key={key} value={key}>
+            {key}
           </option>
         ))}
       </select>
       <div
         style={{
-          backgroundColor: `#${selectedColor}`,
+          backgroundColor: `#${colors[selectedColor]}`,
         }}
         className="h-4 w-8"
       ></div>

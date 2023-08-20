@@ -9,15 +9,17 @@ import { generateCode } from "@/utils/templateSetter";
 import CursorMove from "@/components/CursorMove";
 import Image from "next/image";
 import GraphEditor from "@/components/graphs/GraphEditor";
+import GeneratedComponent from "@/components/GeneratedComponent";
 
 export default function Generator() {
   const [gleData, setGleData] = useState(baseTemplate);
   const [generatedImage, setGeneratedImage] = useState("");
+  const [generatedCode, setGeneratedCode] = useState("");
   const [graphs, setGraphs] = useState<singleGraphTemplate[] | []>([]);
   const [graphNumber, setGraphNumber] = useState(0);
 
   const handleGenerateButtonClick = async () => {
-    generateCode(gleData);
+    setGeneratedCode(generateCode(gleData));
     await callGeneration();
     await getImage();
   };
@@ -98,15 +100,20 @@ export default function Generator() {
                   ...graphs,
                   {
                     id: graphNumber,
-                    size: { width: 0, height: 0 },
+                    size: { width: 14, height: 12 },
                     data: "",
                     fileName: "data.txt",
-                    columnX: 0,
-                    columnY: 0,
+                    columnX: 1,
+                    columnY: 3,
                     settings: {
                       line: false,
-                      marker: "fcircle",
-                      color: "black",
+                      marker: undefined,
+                      color: undefined,
+                      style: undefined,
+                      impulses: undefined,
+                      smooth: undefined,
+                      deresolve: undefined,
+                      key: undefined,
                     },
                   },
                 ]);
@@ -119,11 +126,9 @@ export default function Generator() {
         </div>
         <div className="flex basis-1/2">
           {generatedImage && (
-            <Image
-              src={generatedImage}
-              alt="generated image"
-              width={500}
-              height={500}
+            <GeneratedComponent
+              generatedCode={generatedCode}
+              generatedImage={generatedImage}
             />
           )}
         </div>

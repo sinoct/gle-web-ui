@@ -5,6 +5,7 @@ import DataInput from "./DataInput";
 import { singleGraphTemplate } from "../../../public/graphTemplate";
 import MarkerEditor from "./MarkerEditor";
 import ColorPicker from "./ColorPicker";
+import LineStylePicker from "./LineStylePicker";
 
 interface GraphEditorProps {
   graph: singleGraphTemplate;
@@ -69,6 +70,46 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
       },
     });
   };
+
+  const smoothChangeHandler = (newValue: any) => {
+    setCurrentGraph({
+      ...currentGraph,
+      settings: {
+        ...currentGraph.settings,
+        smooth: newValue.target.checked,
+      },
+    });
+  };
+
+  const impulseChangeHandler = (newValue: any) => {
+    setCurrentGraph({
+      ...currentGraph,
+      settings: {
+        ...currentGraph.settings,
+        impulses: newValue.target.checked,
+      },
+    });
+  };
+
+  const deresolveChangeHandler = (newValue: any) => {
+    setCurrentGraph({
+      ...currentGraph,
+      settings: {
+        ...currentGraph.settings,
+        deresolve: newValue.target.value,
+      },
+    });
+  };
+  const keyChangeHandler = (newValue: any) => {
+    setCurrentGraph({
+      ...currentGraph,
+      settings: {
+        ...currentGraph.settings,
+        key: newValue.target.value,
+      },
+    });
+  };
+
   const markerSelectHandler = (newValue: any) => {
     setCurrentGraph({
       ...currentGraph,
@@ -80,12 +121,22 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
   };
 
   const colorSelectHandler = (newValue: any) => {
-    console.log(newValue.target.value);
     setCurrentGraph({
       ...currentGraph,
       settings: {
         ...currentGraph.settings,
         color: newValue.target.value,
+      },
+    });
+  };
+
+  const lineStyleHandler = (newValue: any) => {
+    console.log(newValue.target.value);
+    setCurrentGraph({
+      ...currentGraph,
+      settings: {
+        ...currentGraph.settings,
+        style: newValue.target.value,
       },
     });
   };
@@ -170,7 +221,40 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
               colorUpdater={colorSelectHandler}
               selectedColor={currentGraph.settings?.color as string}
             />
+            <LineStylePicker styleUpdater={lineStyleHandler} />
           </div>
+          <label className="flex gap-4 items-center">
+            Smooth:
+            <input
+              type="checkbox"
+              checked={currentGraph.settings?.smooth}
+              onChange={smoothChangeHandler}
+            />
+          </label>
+          <label className="flex gap-4 items-center">
+            Impulses:
+            <input
+              type="checkbox"
+              checked={currentGraph.settings?.impulses}
+              onChange={impulseChangeHandler}
+            />
+          </label>
+          <label className="flex gap-4 items-center">
+            Deresolve:
+            <input
+              type="number"
+              checked={currentGraph.settings?.impulses}
+              onChange={deresolveChangeHandler}
+            />
+          </label>
+          <label className="flex gap-4 items-center">
+            Key:
+            <input
+              type="text"
+              checked={currentGraph.settings?.impulses}
+              onChange={keyChangeHandler}
+            />
+          </label>
         </div>
       </div>
     </div>

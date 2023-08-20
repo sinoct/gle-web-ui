@@ -13,10 +13,26 @@ export const generateText = (data: templateType) => {
       }\n   data ${currentGraph.fileName} d${index + 1}=c${
         currentGraph.columnX
       },c${currentGraph.columnY}\n`;
-      text += `d${index + 1} ${
-        currentGraph.settings?.line ? "line" : ""
-      } marker ${currentGraph.settings?.marker} color ${
+      text += `d${index + 1} ${currentGraph.settings?.line ? "line" : ""} ${
+        currentGraph.settings?.marker
+          ? `marker ${currentGraph.settings?.marker}`
+          : ""
+      } ${
         currentGraph.settings?.color
+          ? `color ${currentGraph.settings?.color}`
+          : ""
+      } ${
+        currentGraph.settings?.style
+          ? `lstyle ${currentGraph.settings.style}`
+          : ""
+      } ${currentGraph.settings?.smooth ? "smooth" : ""} ${
+        currentGraph.settings?.impulses ? "impulses" : ""
+      } ${
+        currentGraph.settings?.deresolve
+          ? `deresolve ${currentGraph.settings.deresolve}`
+          : ""
+      } ${
+        currentGraph.settings?.key ? `key ${currentGraph.settings.key}` : ""
       }\n`;
       text += "end graph";
     });
@@ -53,4 +69,5 @@ export const downloadFile = async (text: string) => {
 export const generateCode = (data: templateType) => {
   const text = generateText(data);
   downloadFile(text);
+  return text;
 };

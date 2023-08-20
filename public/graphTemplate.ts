@@ -1,12 +1,12 @@
 export const baseTemplate: templateType = {
   data: {
     pageSize: {
-      width: 20,
-      height: 20,
+      width: 18,
+      height: 24,
     },
     cursorMove: {
-      x: 0,
-      y: 0,
+      x: 2,
+      y: 10,
     },
     graph: null,
   },
@@ -26,6 +26,11 @@ export interface singleGraphTemplate {
     line?: boolean;
     marker?: string;
     color?: string;
+    style?: string;
+    smooth?: boolean;
+    impulses?: boolean;
+    deresolve?: string;
+    key?: string;
   };
 }
 
