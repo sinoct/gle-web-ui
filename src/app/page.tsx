@@ -1,91 +1,147 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
+"use client";
+import { PageSizeSetter } from "@/components/PageSizeSetter";
+import { useEffect, useState } from "react";
+import { baseTemplate, singleGraphTemplate } from "../../public/graphTemplate";
+import { generateCode } from "@/utils/templateSetter";
+import CursorMove from "@/components/CursorMove";
+import Image from "next/image";
+import GraphEditor from "@/components/graphs/GraphEditor";
+import GeneratedComponent from "@/components/GeneratedComponent";
 
-const inter = Inter({ subsets: ['latin'] })
+export default function Generator() {
+  const [gleData, setGleData] = useState(baseTemplate);
+  const [generatedImage, setGeneratedImage] = useState("");
+  const [generatedCode, setGeneratedCode] = useState("");
+  const [graphs, setGraphs] = useState<singleGraphTemplate[] | []>([]);
+  const [graphNumber, setGraphNumber] = useState(0);
 
-export default function Home() {
+  const handleGenerateButtonClick = async () => {
+    setGeneratedCode(generateCode(gleData));
+    await callGeneration();
+    await getImage();
+  };
+
+  const callGeneration = async () => {
+    try {
+      const res = await fetch("/api/generate-image", {
+        method: "GET",
+      });
+      let cucc = res;
+      console.log(cucc);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getImage = async () => {
+    try {
+      const res = await fetch("api/get-image", {
+        method: "GET",
+      });
+      const cucc = await res.text();
+      setGeneratedImage(`data:image/png;base64,${cucc}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeGraph = (id: number) => {
+    setGraphs((graphs: any) => graphs.filter((graph: any) => graph.id !== id));
+  };
+
+  const updateGraph = (updatedGraph: singleGraphTemplate) => {
+    setGraphs(
+      graphs.map((graph: singleGraphTemplate) => {
+        let tmp = graph;
+        if (graph.id === updatedGraph.id) {
+          tmp = updatedGraph;
+        }
+        return tmp;
+      })
+    );
+  };
+
+  useEffect(() => {
+    let updatedData = gleData;
+    updatedData.data.graph = graphs;
+    setGleData(updatedData);
+  }, [graphs]);
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
+    <div className="w-full flex flex-col gap-8">
+      <div className="p-4 text-3xl flex justify-center">GLE code generator</div>
+      <div className="flex gap-4">
+        <div className="flex flex-col gap-2 basis-1/2">
+          <div className="card">
+            <PageSizeSetter template={gleData} templateSetter={setGleData} />
+          </div>
+          <div className="card">
+            <CursorMove template={gleData} templateSetter={setGleData} />
+          </div>
+          <div className="flex flex-col gap-4 card">
+            {graphs.map((graph: any) => {
+              return (
+                <div key={graph.id}>
+                  <GraphEditor
+                    graph={graph}
+                    graphSetter={updateGraph}
+                    removeGraph={removeGraph}
+                  />
+                </div>
+              );
+            })}
+            <button
+              className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
+              onClick={() => {
+                setGraphs([
+                  ...graphs,
+                  {
+                    id: graphNumber,
+                    size: { width: 14, height: 12 },
+                    data: "",
+                    fileName: "data.txt",
+                    columnX: 1,
+                    columnY: 3,
+                    settings: {
+                      type: "line",
+                      line: false,
+                      marker: undefined,
+                      color: undefined,
+                      style: undefined,
+                      impulses: undefined,
+                      smooth: undefined,
+                      deresolve: undefined,
+                      key: undefined,
+                    },
+                  },
+                ]);
+                setGraphNumber(graphNumber + 1);
+              }}
+            >
+              Add graph
+            </button>
+          </div>
+        </div>
+        <div className="flex basis-1/2">
+          {generatedImage ? (
+            <GeneratedComponent
+              generatedCode={generatedCode}
+              generatedImage={generatedImage}
             />
-          </a>
+          ) : (
+            <div className="text-2xl text-center flex justify-center w-full">
+              The generated code or image will be displayed here
+            </div>
+          )}
         </div>
       </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+      <button
+        className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
+        onClick={handleGenerateButtonClick}
+      >
+        Generate
+      </button>
+    </div>
+  );
 }

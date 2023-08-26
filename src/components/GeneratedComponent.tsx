@@ -1,5 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import Image from "next/image";
+import { downloadFile } from "@/utils/templateSetter";
 
 interface GeneratedProps {
   generatedImage: string;
@@ -22,11 +23,21 @@ const GeneratedComponent: FunctionComponent<GeneratedProps> = ({
         Swith to {`${selectedView === "Code" ? "Image" : "Code"}`} view
       </div>
       {selectedView === "Code" && (
-        <div>
-          <pre>
-            <code>{generatedCode}</code>
-          </pre>
-        </div>
+        <>
+          <div>
+            <pre>
+              <code>{generatedCode}</code>
+            </pre>
+          </div>
+          <div className="flex justify-center w-full">
+            <button
+              className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
+              onClick={() => downloadFile(generatedCode)}
+            >
+              Download
+            </button>
+          </div>
+        </>
       )}
       {selectedView === "Image" && (
         <div>

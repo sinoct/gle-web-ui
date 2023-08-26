@@ -22,16 +22,26 @@ export interface singleGraphTemplate {
   fileName: string;
   columnX: number;
   columnY: number;
-  settings?: {
-    line?: boolean;
-    marker?: string;
-    color?: string;
-    style?: string;
-    smooth?: boolean;
-    impulses?: boolean;
-    deresolve?: string;
-    key?: string;
-  };
+  settings?: lineGraphSettings | barGraphSettings;
+}
+
+export interface lineGraphSettings {
+  type: "line";
+  line?: boolean;
+  marker?: string;
+  color?: string;
+  style?: string;
+  smooth?: boolean;
+  impulses?: boolean;
+  deresolve?: string;
+  key?: string;
+}
+
+export interface barGraphSettings {
+  type: "bar";
+  color?: string;
+  width?: string;
+  fill?: string;
 }
 
 export interface templateType {

@@ -1,4 +1,5 @@
 import { templateType } from "../../public/graphTemplate";
+import { generateGraphText } from "./templateTextGenerators";
 
 export const generateText = (data: templateType) => {
   const params = data.data;
@@ -8,33 +9,7 @@ export const generateText = (data: templateType) => {
   }
   if (params.graph) {
     params.graph.map((currentGraph, index) => {
-      text += `begin graph\n  size ${currentGraph.size.width} ${
-        currentGraph.size.height
-      }\n   data ${currentGraph.fileName} d${index + 1}=c${
-        currentGraph.columnX
-      },c${currentGraph.columnY}\n`;
-      text += `d${index + 1} ${currentGraph.settings?.line ? "line" : ""} ${
-        currentGraph.settings?.marker
-          ? `marker ${currentGraph.settings?.marker}`
-          : ""
-      } ${
-        currentGraph.settings?.color
-          ? `color ${currentGraph.settings?.color}`
-          : ""
-      } ${
-        currentGraph.settings?.style
-          ? `lstyle ${currentGraph.settings.style}`
-          : ""
-      } ${currentGraph.settings?.smooth ? "smooth" : ""} ${
-        currentGraph.settings?.impulses ? "impulses" : ""
-      } ${
-        currentGraph.settings?.deresolve
-          ? `deresolve ${currentGraph.settings.deresolve}`
-          : ""
-      } ${
-        currentGraph.settings?.key ? `key ${currentGraph.settings.key}` : ""
-      }\n`;
-      text += "end graph";
+      text += generateGraphText(currentGraph, index);
     });
   }
   return text;
@@ -43,14 +18,15 @@ export const generateText = (data: templateType) => {
 export const downloadFile = async (text: string) => {
   const link = document.createElement("a");
   const file = new Blob([text], { type: "text/plain" });
-  // try {
-  //   console.log("writing file");
-  //   await writeFileSync("sample.gle", text);
-  // } catch (error) {
-  //   console.log("write error", error);
-  // }
+  link.href = URL.createObjectURL(file);
+  link.download = "graph.gle";
+  link.click();
+};
+
+export const generateCode = (data: templateType) => {
+  const text = generateText(data);
   try {
-    const res = await fetch("/api/save-image", {
+    const res = fetch("/api/save-image", {
       method: "POST",
       body: JSON.stringify({ text }),
       headers: {
@@ -61,13 +37,8 @@ export const downloadFile = async (text: string) => {
   } catch (e) {
     console.log(e);
   }
-  link.href = URL.createObjectURL(file);
-  link.download = "graph.gle";
-  link.click();
-};
 
-export const generateCode = (data: templateType) => {
-  const text = generateText(data);
-  downloadFile(text);
+  //TODO: invoke it on a download button click
+  // downloadFile(text);
   return text;
 };
