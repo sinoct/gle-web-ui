@@ -21,6 +21,7 @@ export const downloadFile = async (text: string) => {
   link.href = URL.createObjectURL(file);
   link.download = "graph.gle";
   link.click();
+  link.remove();
 };
 
 export const generateCode = (data: templateType) => {

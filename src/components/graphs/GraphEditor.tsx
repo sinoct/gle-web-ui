@@ -22,7 +22,9 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
   removeGraph,
 }) => {
   const [currentGraph, setCurrentGraph] = useState(graph);
-  const [graphType, setGraphType] = useState("line");
+  const [graphType, setGraphType] = useState("Line");
+
+  const graphTypes = ["Line", "Bar"];
 
   const widthInputHandler = (newValue: any) => {
     newValue;
@@ -70,6 +72,17 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
       ...currentGraph,
       settings: newValue,
     });
+  };
+
+  const graphTypeUpdater = (newValue: any) => {
+    setCurrentGraph({
+      ...currentGraph,
+      settings: {
+        ...currentGraph.settings,
+        type: newValue.target.value,
+      },
+    });
+    setGraphType(newValue.target.value);
   };
 
   useEffect(() => {
@@ -134,15 +147,38 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
               />
             </div>
           </div>
-          <div>Graph Settings:</div>
-          {graphType === "line" ? (
-            <LineGraphSettings
-              settings={currentGraph.settings as lineGraphSettings}
-              settingsSetter={settingsUpdater}
-            />
-          ) : (
-            <BarGraphSettings />
-          )}
+          <div className="pt-2">
+            <h1>Graph Settings:</h1>
+            <div className="py-2">
+              <label>
+                Type of Graph:
+                <select
+                  name="graphTypes"
+                  id="graphType"
+                  onChange={graphTypeUpdater}
+                >
+                  {graphTypes.map((typeOfGraph: string) => (
+                    <option key={typeOfGraph} value={typeOfGraph}>
+                      {typeOfGraph}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <div>
+              {graphType === "Line" ? (
+                <LineGraphSettings
+                  settings={currentGraph.settings as lineGraphSettings}
+                  settingsSetter={settingsUpdater}
+                />
+              ) : (
+                <BarGraphSettings
+                  settings={currentGraph.settings as barGraphSettings}
+                  settingsSetter={settingsUpdater}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

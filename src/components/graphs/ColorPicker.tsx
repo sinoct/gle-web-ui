@@ -5,15 +5,17 @@ import Image from "next/image";
 interface MarkerEditorProps {
   colorUpdater: any;
   selectedColor: string;
+  labelText?: string;
 }
 
 const ColorPicker: FunctionComponent<MarkerEditorProps> = ({
   colorUpdater,
   selectedColor,
+  labelText = "Color",
 }) => {
   return (
     <label className="flex gap-4 items-center">
-      Color:
+      {labelText}:
       <select name="colors" id="colorID" onChange={colorUpdater}>
         {Object.keys(colors).map((key, value) => (
           <option key={key} value={key}>

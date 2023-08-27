@@ -26,7 +26,7 @@ export interface singleGraphTemplate {
 }
 
 export interface lineGraphSettings {
-  type: "line";
+  type: "Line";
   line?: boolean;
   marker?: string;
   color?: string;
@@ -38,7 +38,7 @@ export interface lineGraphSettings {
 }
 
 export interface barGraphSettings {
-  type: "bar";
+  type: "Bar";
   color?: string;
   width?: string;
   fill?: string;
