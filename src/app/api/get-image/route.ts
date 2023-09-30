@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readFileSync } from "fs";
-import { toBase64 } from "@/utils/base64Handler";
 
 export async function GET(req: NextRequest, res: NextResponse) {
-  console.log("IMAGE GENERATION");
-  const data = readFileSync("sample.png", { encoding: "base64" });
+  console.log("IMAGE FETCH STARTED");
+  const { searchParams } = new URL(req.url);
+  const label = searchParams.get("label") || "test";
+  const data = readFileSync(`./generated/${label}/code.png`, {
+    encoding: "base64",
+  });
+  console.log("IMAGE FETCH FINISHED");
   return new Response(data);
 }

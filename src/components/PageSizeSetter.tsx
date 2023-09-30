@@ -1,15 +1,19 @@
 "use client";
-import { Dispatch, FunctionComponent, SetStateAction, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 
-import { templateType } from "../../public/graphTemplate";
 import { TemplateSetterProps } from "@/app/types/types";
 
 export const PageSizeSetter: FunctionComponent<TemplateSetterProps> = ({
   template,
   templateSetter,
 }) => {
-  const [width, setWidth] = useState(20);
-  const [height, setHeight] = useState(20);
+  const [width, setWidth] = useState(template.data.pageSize.width);
+  const [height, setHeight] = useState(template.data.pageSize.height);
+
+  useEffect(() => {
+    setWidth(template.data.pageSize.width);
+    setHeight(template.data.pageSize.height);
+  }, [template]);
 
   const widthInputHandler = (newValue: any) => {
     const updatedTemplate = template;

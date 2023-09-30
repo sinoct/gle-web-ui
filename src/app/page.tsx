@@ -13,6 +13,7 @@ import GraphEditor from "@/components/graphs/GraphEditor";
 import GeneratedComponent from "@/components/GeneratedComponent";
 import DropDownMenu from "@/components/DropdownMenu";
 import { toStringFromBase64 } from "@/utils/base64Handler";
+import { generateLabel } from "@/utils/labelHelper";
 
 export default function Generator() {
   const [gleData, setGleData] = useState(baseTemplate);
@@ -20,17 +21,34 @@ export default function Generator() {
   const [generatedCode, setGeneratedCode] = useState("");
   const [graphs, setGraphs] = useState<singleGraphTemplate[] | []>([]);
   const [graphNumber, setGraphNumber] = useState(0);
+  const [status, setStatus] = useState<"idle" | "loading" | "finished">("idle");
+  const [label, setLabel] = useState("default");
+
+  useEffect(() => {
+    setLabel(generateLabel());
+  }, []);
 
   const handleGenerateButtonClick = async () => {
-    setGeneratedCode(generateCode(gleData));
-    await callGeneration();
-    await getImage();
+    updateCode().then(callGeneration).then(getImage);
+  };
+
+  const updateCode = async () => {
+    const code = await generateCode(gleData, label);
+    setGeneratedCode(code);
+    setStatus("loading");
+    setTimeout(async () => {
+      await getImage();
+      setStatus("finished");
+    }, 1000);
   };
 
   const callGeneration = async () => {
     try {
       const res = await fetch("/api/generate-image", {
-        method: "GET",
+        method: "POST",
+        body: JSON.stringify({
+          label,
+        }),
       });
       let cucc = res;
       console.log(cucc);
@@ -41,7 +59,7 @@ export default function Generator() {
 
   const getImage = async () => {
     try {
-      const res = await fetch("api/get-image", {
+      const res = await fetch(`api/get-image?label=${label}`, {
         method: "GET",
       });
       const cucc = await res.text();
@@ -148,6 +166,7 @@ export default function Generator() {
                     graph={graph}
                     graphSetter={updateGraph}
                     removeGraph={removeGraph}
+                    label={label}
                   />
                 </div>
               );
@@ -189,6 +208,8 @@ export default function Generator() {
             <GeneratedComponent
               generatedCode={generatedCode}
               generatedImage={generatedImage}
+              getImage={getImage}
+              status={status}
             />
           ) : (
             <div className="text-2xl text-center flex justify-center w-full">

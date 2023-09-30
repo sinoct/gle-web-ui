@@ -1,8 +1,0 @@
-size 20 20 
-
-amove 0 0 
-begin graph
-  size 20 10
-   data data.txt d1=c0,c0
-d1 line marker handpen 
-end graph

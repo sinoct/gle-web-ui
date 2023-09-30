@@ -1,12 +1,17 @@
 import { TemplateSetterProps } from "@/app/types/types";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 
 const CursorMove: FunctionComponent<TemplateSetterProps> = ({
   template,
   templateSetter,
 }) => {
-  const [xAxis, setXAxis] = useState(0);
-  const [yAxis, setYAxis] = useState(0);
+  const [xAxis, setXAxis] = useState(template.data.cursorMove.x);
+  const [yAxis, setYAxis] = useState(template.data.cursorMove.y);
+
+  useEffect(() => {
+    setXAxis(template.data.cursorMove.x);
+    setYAxis(template.data.cursorMove.y);
+  }, [template]);
 
   const xAxisInputHandler = (newValue: any) => {
     const updatedTemplate = template;

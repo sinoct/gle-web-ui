@@ -14,12 +14,14 @@ interface GraphEditorProps {
   graph: singleGraphTemplate;
   graphSetter: any;
   removeGraph: any;
+  label: string;
 }
 
 const GraphEditor: FunctionComponent<GraphEditorProps> = ({
   graph,
   graphSetter,
   removeGraph,
+  label,
 }) => {
   const [currentGraph, setCurrentGraph] = useState(graph);
   const [graphType, setGraphType] = useState("Line");
@@ -125,7 +127,7 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
       <div>
         <div>
           Attach your data stream:
-          <DataInput fileNameSetter={fileNameChangeHandler} />
+          <DataInput fileNameSetter={fileNameChangeHandler} label={label} />
         </div>
         <div>
           Which columns should the graph show?

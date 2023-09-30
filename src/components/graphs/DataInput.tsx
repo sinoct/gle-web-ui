@@ -2,14 +2,18 @@ import { ChangeEvent, FunctionComponent, useState } from "react";
 
 interface DataInputProps {
   fileNameSetter: any;
+  label: string;
 }
 
-const DataInput: FunctionComponent<DataInputProps> = ({ fileNameSetter }) => {
+const DataInput: FunctionComponent<DataInputProps> = ({
+  fileNameSetter,
+  label,
+}) => {
   const uploadDataStream = async (file: any, fileName: string) => {
     try {
       await fetch(`/api/upload-data?file-name=${fileName}`, {
         method: "POST",
-        body: JSON.stringify({ file }),
+        body: JSON.stringify({ file, label }),
       });
     } catch (e) {
       console.log(e);

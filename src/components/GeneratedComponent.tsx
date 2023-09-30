@@ -1,17 +1,22 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import Image from "next/image";
 import { downloadFile } from "@/utils/templateSetter";
 
 interface GeneratedProps {
   generatedImage: string;
   generatedCode: string;
+  getImage: any;
+  status: "idle" | "loading" | "finished";
 }
 
 const GeneratedComponent: FunctionComponent<GeneratedProps> = ({
   generatedCode,
   generatedImage,
+  getImage,
+  status,
 }) => {
   const [selectedView, setSelectedView] = useState("Code");
+
   return (
     <div className="flex flex-col w-full">
       <div
@@ -40,14 +45,28 @@ const GeneratedComponent: FunctionComponent<GeneratedProps> = ({
         </>
       )}
       {selectedView === "Image" && (
-        <div>
-          <Image
-            src={generatedImage}
-            alt="generated image"
-            width={500}
-            height={500}
-          />
-        </div>
+        <>
+          {status === "loading" ? (
+            <div>loading</div>
+          ) : (
+            <div>
+              <Image
+                src={generatedImage}
+                alt="generated image"
+                width={500}
+                height={500}
+              />
+              <button
+                className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
+                onClick={() => {
+                  getImage();
+                }}
+              >
+                refresh
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

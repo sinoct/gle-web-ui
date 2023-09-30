@@ -24,12 +24,12 @@ export const downloadFile = async (text: string) => {
   link.remove();
 };
 
-export const generateCode = (data: templateType) => {
+export const generateCode = async (data: templateType, label: string) => {
   const text = generateText(data);
   try {
-    const res = fetch("/api/save-image", {
+    const res = await fetch("/api/save-code", {
       method: "POST",
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ text, label }),
       headers: {
         "Content-Type": "application/json",
       },
