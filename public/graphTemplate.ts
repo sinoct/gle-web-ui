@@ -22,6 +22,7 @@ export interface singleGraphTemplate {
   fileName: string;
   columnX: number;
   columnY: number;
+  axis: axisType;
   settings?: lineGraphSettings | barGraphSettings;
 }
 
@@ -55,5 +56,20 @@ export interface templateType {
       y: number;
     };
     graph: singleGraphTemplate[] | null;
+  };
+}
+
+export interface axisType {
+  xAxis: {
+    enabled: boolean;
+    log?: boolean;
+    min?: number;
+    max?: number;
+  };
+  yAxis: {
+    enabled: boolean;
+    log?: boolean;
+    min?: number;
+    max?: number;
   };
 }

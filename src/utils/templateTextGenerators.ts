@@ -8,7 +8,31 @@ export const generateGraphText = (
   if (graphObject.settings?.type === "Line") {
     graphText += `begin graph\n  size ${graphObject.size.width} ${
       graphObject.size.height
-    }\n   data ${graphObject.fileName} d${index + 1}=c${graphObject.columnX},c${
+    }\n ${
+      graphObject.axis.xAxis.enabled
+        ? ` xaxis ${graphObject.axis.xAxis.log ? "log" : ""} ${
+            graphObject.axis.xAxis.min
+              ? `min ${graphObject.axis.xAxis.min}`
+              : ""
+          } ${
+            graphObject.axis.xAxis.max
+              ? `max ${graphObject.axis.xAxis.max}`
+              : ""
+          } \n`
+        : ""
+    } ${
+      graphObject.axis.yAxis.enabled
+        ? ` yaxis ${graphObject.axis.yAxis.log ? "log" : ""} ${
+            graphObject.axis.yAxis.min
+              ? `min ${graphObject.axis.yAxis.min}`
+              : ""
+          } ${
+            graphObject.axis.yAxis.max
+              ? `max ${graphObject.axis.yAxis.max}`
+              : ""
+          } \n `
+        : ""
+    } data ${graphObject.fileName} d${index + 1}=c${graphObject.columnX},c${
       graphObject.columnY
     }\n`;
     graphText += `  d${index + 1} ${graphObject.settings?.line ? "line" : ""} ${

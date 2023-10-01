@@ -27,7 +27,7 @@ const CursorMove: FunctionComponent<TemplateSetterProps> = ({
   };
   return (
     <div className="flex gap-8 items-center">
-      <div>Set your desired page size:</div>
+      <div>Set cursor coordinates:</div>
       <div className="flex flex-col gap-1">
         <label htmlFor="xAxis">X Axis</label>
         <input

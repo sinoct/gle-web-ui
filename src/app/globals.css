@@ -111,13 +111,31 @@ a {
 }
 
 input {
-  border-radius: 15px;
+  border-radius: 10px;
+  padding: 8px;
+}
+select {
+  border-radius: 10px;
   padding: 8px;
 }
 
 .card {
   border: 1px solid black;
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: #333333;
+  padding: 16px;
+}
+
+.section {
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: #525252;
+  padding: 16px;
+}
+
+.inner {
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: #8f8f8f;
   padding: 16px;
 }

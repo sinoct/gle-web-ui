@@ -3,12 +3,14 @@ import { FunctionComponent, useEffect, useState } from "react";
 import Image from "next/image";
 import DataInput from "./DataInput";
 import {
+  axisType,
   barGraphSettings,
   lineGraphSettings,
   singleGraphTemplate,
 } from "../../../public/graphTemplate";
 import LineGraphSettings from "./LineGraphSettings";
 import BarGraphSettings from "./BarGraphSettings";
+import AxisSettings from "./AxisSettings";
 
 interface GraphEditorProps {
   graph: singleGraphTemplate;
@@ -87,6 +89,15 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
     setGraphType(newValue.target.value);
   };
 
+  const graphAxisUpdater = (newSettings: axisType) => {
+    setCurrentGraph({
+      ...currentGraph,
+      axis: {
+        ...newSettings,
+      },
+    });
+  };
+
   useEffect(() => {
     graphSetter(currentGraph);
   }, [currentGraph]);
@@ -94,7 +105,7 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
   return (
     <div className="relative">
       <div
-        className="absolute right-5 cursor-pointer"
+        className="absolute right-5 top-5 cursor-pointer"
         onClick={() => removeGraph(graph.id)}
       >
         <Image
@@ -104,81 +115,84 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
           height={36}
         />
       </div>
-      <h1>Graph: {graph.id}</h1>
-      <div>Set your desired page size:</div>
-      <div className="flex flex-col gap-1">
-        <label htmlFor="width"> Width</label>
-        <input
-          type="number"
-          value={currentGraph.size.width}
-          name="width"
-          onInput={widthInputHandler}
-        />
-      </div>
-      <div className="flex flex-col gap-1">
-        <label htmlFor="height"> Height</label>
-        <input
-          type="number"
-          value={currentGraph.size.height}
-          name="height"
-          onInput={heightInputHandler}
-        />
-      </div>
-      <div>
-        <div>
-          Attach your data stream:
-          <DataInput fileNameSetter={fileNameChangeHandler} label={label} />
+      <div className="section">
+        <h1>Graph: {graph.id}</h1>
+        <div>Set your desired page size:</div>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="width"> Width</label>
+          <input
+            type="number"
+            value={currentGraph.size.width}
+            name="width"
+            onInput={widthInputHandler}
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="height"> Height</label>
+          <input
+            type="number"
+            value={currentGraph.size.height}
+            name="height"
+            onInput={heightInputHandler}
+          />
         </div>
         <div>
-          Which columns should the graph show?
-          <div className="flex">
-            <div>
-              X axis:
-              <input
-                type="number"
-                onInput={columnXInputHandler}
-                value={currentGraph.columnX}
-              />
-            </div>
-            <div>
-              Y axis:
-              <input
-                type="number"
-                onInput={columnYInputHandler}
-                value={currentGraph.columnY}
-              />
-            </div>
+          <AxisSettings settings={graph.axis} axisSetter={graphAxisUpdater} />
+          <div className="py-2">
+            Attach your data stream:
+            <DataInput fileNameSetter={fileNameChangeHandler} label={label} />
           </div>
-          <div className="pt-2">
-            <h1>Graph Settings:</h1>
-            <div className="py-2">
-              <label>
-                Type of Graph:
-                <select
-                  name="graphTypes"
-                  id="graphType"
-                  onChange={graphTypeUpdater}
-                >
-                  {graphTypes.map((typeOfGraph: string) => (
-                    <option key={typeOfGraph} value={typeOfGraph}>
-                      {typeOfGraph}
-                    </option>
-                  ))}
-                </select>
-              </label>
+          <div className="py-2">
+            Which columns should the graph show?
+            <div className="flex gap-2">
+              <div>
+                X axis:
+                <input
+                  type="number"
+                  onInput={columnXInputHandler}
+                  value={currentGraph.columnX}
+                />
+              </div>
+              <div>
+                Y axis:
+                <input
+                  type="number"
+                  onInput={columnYInputHandler}
+                  value={currentGraph.columnY}
+                />
+              </div>
             </div>
-            <div>
-              {graphType === "Line" ? (
-                <LineGraphSettings
-                  settings={currentGraph.settings as lineGraphSettings}
-                  settingsSetter={settingsUpdater}
-                />
-              ) : (
-                <BarGraphSettings
-                  settings={currentGraph.settings as barGraphSettings}
-                  settingsSetter={settingsUpdater}
-                />
-              )}
+            <div className="inner mt-2">
+              <h1>Graph Settings:</h1>
+              <div className="py-2">
+                <label>
+                  Type of Graph:
+                  <select
+                    name="graphTypes"
+                    id="graphType"
+                    onChange={graphTypeUpdater}
+                  >
+                    {graphTypes.map((typeOfGraph: string) => (
+                      <option key={typeOfGraph} value={typeOfGraph}>
+                        {typeOfGraph}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <div>
+                {graphType === "Line" ? (
+                  <LineGraphSettings
+                    settings={currentGraph.settings as lineGraphSettings}
+                    settingsSetter={settingsUpdater}
+                  />
+                ) : (
+                  <BarGraphSettings
+                    settings={currentGraph.settings as barGraphSettings}
+                    settingsSetter={settingsUpdater}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>

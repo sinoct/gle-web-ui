@@ -71,8 +71,8 @@ const LineGraphSettings: FunctionComponent<LineGraphSettingsProps> = ({
   }, [currentSettings]);
 
   return (
-    <div>
-      <div className="flex-col">
+    <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1">
         <label className="flex gap-4 items-center">
           Line:
           <input

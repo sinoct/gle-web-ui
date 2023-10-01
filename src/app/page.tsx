@@ -69,6 +69,40 @@ export default function Generator() {
     }
   };
 
+  const addGraph = () => {
+    setGraphs([
+      ...graphs,
+      {
+        id: graphNumber,
+        size: { width: 14, height: 12 },
+        data: "",
+        fileName: "data.txt",
+        columnX: 1,
+        columnY: 3,
+        axis: {
+          xAxis: {
+            enabled: true,
+          },
+          yAxis: {
+            enabled: true,
+          },
+        },
+        settings: {
+          type: "Line",
+          line: false,
+          marker: undefined,
+          color: undefined,
+          style: undefined,
+          impulses: undefined,
+          smooth: undefined,
+          deresolve: undefined,
+          key: undefined,
+        },
+      },
+    ]);
+    setGraphNumber(graphNumber + 1);
+  };
+
   const removeGraph = (id: number) => {
     setGraphs((graphs: any) => graphs.filter((graph: any) => graph.id !== id));
   };
@@ -113,7 +147,7 @@ export default function Generator() {
   }, [graphs]);
 
   return (
-    <div className="w-full flex flex-col gap-8">
+    <div className="w-full flex flex-col gap-8 overflow-visible">
       <div className="p-4 text-3xl flex justify-center relative">
         GLE code generator
         <div className="absolute right-10">
@@ -171,36 +205,36 @@ export default function Generator() {
                 </div>
               );
             })}
-            <button
-              className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
-              onClick={() => {
-                setGraphs([
-                  ...graphs,
-                  {
-                    id: graphNumber,
-                    size: { width: 14, height: 12 },
-                    data: "",
-                    fileName: "data.txt",
-                    columnX: 1,
-                    columnY: 3,
-                    settings: {
-                      type: "Line",
-                      line: false,
-                      marker: undefined,
-                      color: undefined,
-                      style: undefined,
-                      impulses: undefined,
-                      smooth: undefined,
-                      deresolve: undefined,
-                      key: undefined,
-                    },
-                  },
-                ]);
-                setGraphNumber(graphNumber + 1);
-              }}
+            <DropDownMenu
+              dropDownButton={
+                <button className="bg-blue-700 hover:bg-blue-500 p-4 rounded w-5/6">
+                  Add
+                </button>
+              }
             >
-              Add graph
-            </button>
+              <div className="flex flex-col gap-4">
+                <button
+                  className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
+                  onClick={() => {
+                    addGraph();
+                  }}
+                >
+                  Add Graph
+                </button>
+                <button
+                  className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
+                  onClick={() => {}}
+                >
+                  Add Cursor Move
+                </button>
+                <button
+                  className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
+                  onClick={() => {}}
+                >
+                  Add Text
+                </button>
+              </div>
+            </DropDownMenu>
           </div>
         </div>
         <div className="flex basis-1/2">

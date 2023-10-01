@@ -23,6 +23,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
       if (stderr) {
         console.log(stderr);
       }
+      if (stdout) {
+        console.log(stdout);
+      }
     }
   );
   console.log("IMAGE GENERATED");

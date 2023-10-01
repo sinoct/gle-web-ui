@@ -38,8 +38,8 @@ const BarGraphSettings: FunctionComponent<BarGraphSettingsProps> = ({
   }, [currentSettings]);
 
   return (
-    <div>
-      <div className="flex-col">
+    <div className="">
+      <div className="flex flex-col gap-2">
         <ColorPicker
           colorUpdater={colorSelectHandler}
           selectedColor={settings?.color as string}
