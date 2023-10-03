@@ -18,12 +18,9 @@ export interface singleGraphTemplate {
     width: number;
     height: number;
   };
-  data: string;
-  fileName: string;
-  columnX: number;
-  columnY: number;
   axis: axisType;
-  settings?: lineGraphSettings | barGraphSettings;
+  dataSources: dataSourceType[];
+  displayElements: displayElementType[];
 }
 
 export interface lineGraphSettings {
@@ -72,4 +69,18 @@ export interface axisType {
     min?: number;
     max?: number;
   };
+}
+
+export interface dataSourceType {
+  fileName: string;
+  data: string;
+  name: string;
+  columnX: number;
+  columnY: number;
+}
+
+export interface displayElementType {
+  settings: lineGraphSettings | barGraphSettings;
+  name: string;
+  id: number;
 }

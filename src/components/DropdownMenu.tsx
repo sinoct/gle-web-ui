@@ -27,8 +27,9 @@ const DropDownMenu: FunctionComponent<DropDownMenuProps> = ({
       </div>
       <div
         className={`transition-all duration-500 bg-gray-500 absolute right-0 rounded ${
-          isOpen ? "max-h-96 p-4" : "max-h-0"
+          isOpen ? "max-h-96 p-4 z-50" : "max-h-0"
         } overflow-hidden`}
+        onClick={() => setIsOpen(!isOpen)}
       >
         {children}
       </div>

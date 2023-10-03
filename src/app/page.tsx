@@ -21,6 +21,7 @@ export default function Generator() {
   const [generatedCode, setGeneratedCode] = useState("");
   const [graphs, setGraphs] = useState<singleGraphTemplate[] | []>([]);
   const [graphNumber, setGraphNumber] = useState(0);
+
   const [status, setStatus] = useState<"idle" | "loading" | "finished">("idle");
   const [label, setLabel] = useState("default");
 
@@ -75,10 +76,8 @@ export default function Generator() {
       {
         id: graphNumber,
         size: { width: 14, height: 12 },
-        data: "",
-        fileName: "data.txt",
-        columnX: 1,
-        columnY: 3,
+        dataSources: [],
+        displayElements: [],
         axis: {
           xAxis: {
             enabled: true,
@@ -86,17 +85,6 @@ export default function Generator() {
           yAxis: {
             enabled: true,
           },
-        },
-        settings: {
-          type: "Line",
-          line: false,
-          marker: undefined,
-          color: undefined,
-          style: undefined,
-          impulses: undefined,
-          smooth: undefined,
-          deresolve: undefined,
-          key: undefined,
         },
       },
     ]);
