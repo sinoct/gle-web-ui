@@ -4,8 +4,10 @@ import Image from "next/image";
 import DataInput from "./DataInput";
 import {
   axisType,
+  barGraphSettings,
   dataSourceType,
   displayElementType,
+  lineGraphSettings,
   singleGraphTemplate,
 } from "../../../public/graphTemplate";
 import AxisSettings from "./AxisSettings";
@@ -26,8 +28,8 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
   label,
 }) => {
   const [currentGraph, setCurrentGraph] = useState(graph);
-  const [displayElementNumber, setDisplayElementNumber] = useState(0);
-  const [dataSourceNumber, setDataSourceNumber] = useState(0);
+  const [displayElementNumber, setDisplayElementNumber] = useState(1);
+  const [dataSourceNumber, setDataSourceNumber] = useState(1);
 
   const widthInputHandler = (newValue: any) => {
     newValue;
@@ -125,12 +127,28 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
       },
       id: displayElementNumber,
     });
-
     setCurrentGraph({
       ...currentGraph,
       displayElements: tmpSources,
     });
     setDisplayElementNumber(displayElementNumber + 1);
+  };
+
+  const updateDisplayElements = (
+    updatedSettings: lineGraphSettings | barGraphSettings,
+    id: number
+  ) => {
+    let tmpDisplayElements = currentGraph.displayElements;
+    tmpDisplayElements = tmpDisplayElements.map((item) => {
+      if (item.id === id) {
+        item.settings = updatedSettings;
+      }
+      return item;
+    });
+    setCurrentGraph({
+      ...currentGraph,
+      displayElements: tmpDisplayElements,
+    });
   };
 
   const removeSource = (name: string) => {
@@ -262,6 +280,7 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
                         id={displayElement.id}
                         name={displayElement.name}
                         settings={displayElement.settings}
+                        stateUpdater={updateDisplayElements}
                       ></DisplayEditor>
                     </div>
                   )}

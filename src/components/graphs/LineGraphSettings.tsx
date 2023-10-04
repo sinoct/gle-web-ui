@@ -37,7 +37,7 @@ const LineGraphSettings: FunctionComponent<LineGraphSettingsProps> = ({
   const lineStyleHandler = (newValue: any) => {
     setCurrentSettings({
       ...currentSettings,
-      line: newValue.target.value,
+      style: newValue.target.value,
     });
   };
 

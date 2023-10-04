@@ -1,22 +1,23 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import {
   lineGraphSettings,
   barGraphSettings,
 } from "../../../out/graphTemplate";
 import BarGraphSettings from "./BarGraphSettings";
 import LineGraphSettings from "./LineGraphSettings";
-import { displayElementType } from "../../../public/graphTemplate";
 
 interface DisplayEditorProps {
   id: number;
   name: string;
   settings: lineGraphSettings | barGraphSettings;
+  stateUpdater: any;
 }
 
 const DisplayEditor: FunctionComponent<DisplayEditorProps> = ({
   id,
   name,
   settings,
+  stateUpdater,
 }) => {
   const [graphType, setGraphType] = useState("Line");
   const [elementSettings, setElementSettings] = useState(settings);
@@ -35,6 +36,10 @@ const DisplayEditor: FunctionComponent<DisplayEditorProps> = ({
     });
     setGraphType(newValue.target.value);
   };
+
+  useEffect(() => {
+    stateUpdater(elementSettings, id);
+  }, [elementSettings]);
   return (
     <div className="py-2">
       <div className="inner mt-2">
