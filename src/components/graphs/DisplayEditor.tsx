@@ -1,11 +1,11 @@
 import { FunctionComponent, useState } from "react";
-import {
-  lineGraphSettings,
-  barGraphSettings,
-} from "../../../out/graphTemplate";
 import BarGraphSettings from "./BarGraphSettings";
 import LineGraphSettings from "./LineGraphSettings";
-import { displayElementType } from "../../../public/graphTemplate";
+import {
+  barGraphSettings,
+  displayElementType,
+  lineGraphSettings,
+} from "../../../public/graphTemplate";
 
 interface DisplayEditorProps {
   id: number;
