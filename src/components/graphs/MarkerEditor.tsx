@@ -12,7 +12,7 @@ const MarkerEditor: FunctionComponent<MarkerEditorProps> = ({
   selectedMarker,
 }) => {
   return (
-    <label className="flex gap-4 items-center">
+    <label className="flex flex-col md:flex-row gap-4 items-center">
       Marker:
       <select name="markers" id="markerID" onChange={markerUpdater}>
         {markers.map((marker) => (

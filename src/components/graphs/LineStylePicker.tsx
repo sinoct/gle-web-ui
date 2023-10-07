@@ -8,7 +8,7 @@ const LineStylePicker: FunctionComponent<LineStylePickerProps> = ({
   styleUpdater,
 }) => {
   return (
-    <label>
+    <label className="flex flex-col md:flex-row items-centers">
       Line style:
       <input type="number" min={0} max={10} onChange={styleUpdater} />
     </label>

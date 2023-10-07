@@ -14,7 +14,7 @@ const ColorPicker: FunctionComponent<MarkerEditorProps> = ({
   labelText = "Color",
 }) => {
   return (
-    <label className="flex gap-4 items-center">
+    <label className="flex flex-col md:flex-row gap-4 items-center">
       {labelText}:
       <select name="colors" id="colorID" onChange={colorUpdater}>
         {Object.keys(colors).map((key, value) => (

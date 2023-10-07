@@ -57,7 +57,7 @@ const AxisSettings: FunctionComponent<AxisSettingsProps> = ({
         X axis:
         <div>
           <div>
-            <label className="flex items-center gap-2">
+            <label className="flex flex-col md:flex-row items-center gap-2">
               Enable:
               <input
                 type="checkbox"
@@ -67,8 +67,8 @@ const AxisSettings: FunctionComponent<AxisSettingsProps> = ({
             </label>
           </div>
           {settings.xAxis.enabled && (
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2">
+            <div className="flex flex-col md:flex-row gap-4">
+              <label className="flex flex-col md:flex-row items-center gap-2">
                 Logarithmic:
                 <input
                   type="checkbox"
@@ -76,7 +76,7 @@ const AxisSettings: FunctionComponent<AxisSettingsProps> = ({
                   onChange={(e) => logarithmHandler("xAxis", e)}
                 />
               </label>
-              <label className="flex items-center gap-2">
+              <label className="flex flex-col md:flex-row items-center gap-2">
                 Minimum:
                 <input
                   type="number"
@@ -84,7 +84,7 @@ const AxisSettings: FunctionComponent<AxisSettingsProps> = ({
                   onChange={(e) => minimumHandler("xAxis", e)}
                 />
               </label>
-              <label className="flex items-center gap-2">
+              <label className="flex flex-col md:flex-row items-center gap-2">
                 Maximum:
                 <input
                   type="number"
@@ -100,7 +100,7 @@ const AxisSettings: FunctionComponent<AxisSettingsProps> = ({
         Y axis:
         <div>
           <div>
-            <label className="flex items-center gap-2">
+            <label className="flex flex-col md:flex-row items-center gap-2">
               Enable:
               <input
                 type="checkbox"
@@ -110,8 +110,8 @@ const AxisSettings: FunctionComponent<AxisSettingsProps> = ({
             </label>
           </div>
           {settings.yAxis.enabled && (
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2">
+            <div className="flex flex-col md:flex-row gap-4">
+              <label className="flex flex-col md:flex-row items-center gap-2">
                 Logarithmic:
                 <input
                   type="checkbox"
@@ -119,7 +119,7 @@ const AxisSettings: FunctionComponent<AxisSettingsProps> = ({
                   onChange={(e) => logarithmHandler("yAxis", e)}
                 />
               </label>
-              <label className="flex items-center gap-2">
+              <label className="flex flex-col md:flex-row items-center gap-2">
                 Minimum:
                 <input
                   type="number"
@@ -127,7 +127,7 @@ const AxisSettings: FunctionComponent<AxisSettingsProps> = ({
                   onChange={(e) => minimumHandler("yAxis", e)}
                 />
               </label>
-              <label className="flex items-center gap-2">
+              <label className="flex flex-col md:flex-row items-center gap-2">
                 Maximum:
                 <input
                   type="number"

@@ -72,7 +72,7 @@ const LineGraphSettings: FunctionComponent<LineGraphSettingsProps> = ({
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex flex-col gap-1">
+      <div className="flex items-center flex-col gap-1">
         <label className="flex gap-4 items-center">
           Line:
           <input
@@ -91,7 +91,7 @@ const LineGraphSettings: FunctionComponent<LineGraphSettingsProps> = ({
         />
         <LineStylePicker styleUpdater={lineStyleHandler} />
       </div>
-      <label className="flex gap-4 items-center">
+      <label className="flex flex-col md:flex-row gap-4 items-center">
         Smooth:
         <input
           type="checkbox"
@@ -99,7 +99,7 @@ const LineGraphSettings: FunctionComponent<LineGraphSettingsProps> = ({
           onChange={smoothChangeHandler}
         />
       </label>
-      <label className="flex gap-4 items-center">
+      <label className="flex flex-col md:flex-row gap-4 items-center">
         Impulses:
         <input
           type="checkbox"
@@ -107,7 +107,7 @@ const LineGraphSettings: FunctionComponent<LineGraphSettingsProps> = ({
           onChange={impulseChangeHandler}
         />
       </label>
-      <label className="flex gap-4 items-center">
+      <label className="flex flex-col md:flex-row gap-4 items-center">
         Deresolve:
         <input
           type="number"
@@ -115,7 +115,7 @@ const LineGraphSettings: FunctionComponent<LineGraphSettingsProps> = ({
           onChange={deresolveChangeHandler}
         />
       </label>
-      <label className="flex gap-4 items-center">
+      <label className="flex flex-col md:flex-row gap-4 items-center">
         Key:
         <input
           type="text"

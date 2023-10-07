@@ -28,7 +28,7 @@ export const PageSizeSetter: FunctionComponent<TemplateSetterProps> = ({
     setHeight(newValue.target.value);
   };
   return (
-    <div className="flex gap-8 items-center">
+    <div className="flex flex-col md:flex-row gap-8 items-center">
       <div>Set your desired page size:</div>
       <div className="flex flex-col gap-1">
         <label htmlFor="width"> Width</label>

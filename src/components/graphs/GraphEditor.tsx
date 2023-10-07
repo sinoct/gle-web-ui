@@ -243,7 +243,7 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
                 label={label}
               />
               Which columns should the graph show?
-              <div className="flex gap-2">
+              <div className="flex flex-col md:flex-row items-center gap-2">
                 <div>
                   X axis:
                   <input
@@ -266,7 +266,7 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
                   {displayElement.name === source.name && (
                     <div key={displayElement.id} className="relative">
                       <div
-                        className="absolute right-5 top-5 cursor-pointer"
+                        className="absolute right-5 top-8 cursor-pointer"
                         onClick={() => removeDisplayElement(displayElement.id)}
                       >
                         <Image
@@ -287,7 +287,7 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
                 </>
               ))}
               <button
-                className="bg-blue-700 hover:bg-blue-500 p-4 rounded-md text-base"
+                className="bg-blue-700 hover:bg-blue-500 p-4 rounded-md text-base mt-2"
                 onClick={() =>
                   addDisplayElement(currentGraph.dataSources[index].name)
                 }

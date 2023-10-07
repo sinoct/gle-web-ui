@@ -135,10 +135,10 @@ export default function Generator() {
   }, [graphs]);
 
   return (
-    <div className="w-full flex flex-col gap-8 overflow-visible">
-      <div className="p-4 text-3xl flex justify-center relative">
+    <div className="w-full flex flex-col gap-8">
+      <div className="p-4 text-2xl md:text-3xl flex justify-center relative">
         GLE code generator
-        <div className="absolute right-10">
+        <div className="absolute right-0 md:right-10">
           <DropDownMenu>
             <div className="flex flex-col gap-4">
               <button
@@ -172,8 +172,8 @@ export default function Generator() {
           </DropDownMenu>
         </div>
       </div>
-      <div className="flex gap-4">
-        <div className="flex flex-col gap-2 basis-1/2">
+      <div className="flex flex-col-reverse lg:flex-row gap-4">
+        <div className="flex flex-col gap-2">
           <div className="card">
             <PageSizeSetter template={gleData} templateSetter={setGleData} />
           </div>
@@ -225,7 +225,7 @@ export default function Generator() {
             </DropDownMenu>
           </div>
         </div>
-        <div className="flex basis-1/2">
+        <div className="flex">
           {generatedImage ? (
             <GeneratedComponent
               generatedCode={generatedCode}

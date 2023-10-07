@@ -51,7 +51,7 @@ const BarGraphSettings: FunctionComponent<BarGraphSettingsProps> = ({
           labelText="Fill"
         />
 
-        <label className="flex gap-4 items-center">
+        <label className="flex flex-col md:flex-row gap-4 items-center">
           Width:
           <input
             type="number"

@@ -86,7 +86,6 @@
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
 }
 
 body {
@@ -137,5 +136,12 @@ select {
   border: 1px solid black;
   border-radius: 10px;
   background-color: #8f8f8f;
+  padding: 16px;
+}
+
+.display {
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: #c8c8c8;
   padding: 16px;
 }

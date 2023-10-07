@@ -41,11 +41,11 @@ const DisplayEditor: FunctionComponent<DisplayEditorProps> = ({
     stateUpdater(elementSettings, id);
   }, [elementSettings]);
   return (
-    <div className="py-2">
-      <div className="inner mt-2">
+    <div className="py-2 flex flex-col md:flex-row">
+      <div className="display mt-2">
         <h1>Graph Settings:</h1>
         <div className="py-2">
-          <label>
+          <label className="flex flex-col md:flex-row items-center">
             Type of Graph:
             <select
               name="graphTypes"

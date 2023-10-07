@@ -26,7 +26,7 @@ const CursorMove: FunctionComponent<TemplateSetterProps> = ({
     setYAxis(newValue.target.value);
   };
   return (
-    <div className="flex gap-8 items-center">
+    <div className="flex flex-col md:flex-row gap-8 items-center">
       <div>Set cursor coordinates:</div>
       <div className="flex flex-col gap-1">
         <label htmlFor="xAxis">X Axis</label>
