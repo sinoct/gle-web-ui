@@ -7,11 +7,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
   console.log("IMAGE GENERATION");
   const tmp = await req.json();
   const filePath = `./generated/${tmp.label}`;
-  try {
-    mkdirSync(filePath, { recursive: true });
-  } catch (error) {
-    console.log(error);
-  }
   const wd = process.cwd();
   exec(
     "gle -d png code.gle",

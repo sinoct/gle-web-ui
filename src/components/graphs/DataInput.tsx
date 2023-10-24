@@ -3,11 +3,13 @@ import { ChangeEvent, FunctionComponent, useState } from "react";
 interface DataInputProps {
   fileNameSetter: any;
   label: string;
+  tooltip: string;
 }
 
 const DataInput: FunctionComponent<DataInputProps> = ({
   fileNameSetter,
   label,
+  tooltip,
 }) => {
   const uploadDataStream = async (file: any, fileName: string) => {
     try {
@@ -37,6 +39,8 @@ const DataInput: FunctionComponent<DataInputProps> = ({
   return (
     <div>
       <input type="file" onChange={handleFileChange} />
+      {}
+      <div></div>
     </div>
   );
 };

@@ -9,6 +9,8 @@ export const baseTemplate: templateType = {
       y: 10,
     },
     graph: null,
+    cursorMovements: null,
+    key: null,
   },
 };
 
@@ -48,11 +50,10 @@ export interface templateType {
       width: number;
       height: number;
     };
-    cursorMove: {
-      x: number;
-      y: number;
-    };
+    cursorMove: cursorMovementType;
     graph: singleGraphTemplate[] | null;
+    cursorMovements: cursorMovementType[] | null;
+    key: keyTemplate | null;
   };
 }
 
@@ -83,4 +84,16 @@ export interface displayElementType {
   settings: lineGraphSettings | barGraphSettings;
   name: string;
   id: number;
+}
+
+export interface cursorMovementType {
+  x: number;
+  y: number;
+}
+
+export interface keyTemplate {
+  position: "tl" | "tr" | "tc" | "bl" | "br" | "bc";
+  offset: cursorMovementType;
+  height: number;
+  nobox: boolean;
 }

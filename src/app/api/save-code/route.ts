@@ -16,6 +16,5 @@ export async function POST(req: NextRequest, res: NextResponse) {
   } catch (error) {
     console.log("write error", error);
   }
-
   return new Response("CODE GENERATED!");
 }

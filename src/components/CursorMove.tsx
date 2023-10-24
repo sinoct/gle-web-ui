@@ -1,30 +1,34 @@
 import { TemplateSetterProps } from "@/app/types/types";
 import { FunctionComponent, useEffect, useState } from "react";
+import { cursorMovementType } from "../../public/graphTemplate";
 
-const CursorMove: FunctionComponent<TemplateSetterProps> = ({
-  template,
-  templateSetter,
+interface CursorMoveProps {
+  movement: cursorMovementType;
+  movementSetter: (movement: cursorMovementType) => void;
+}
+
+const CursorMove: FunctionComponent<CursorMoveProps> = ({
+  movement,
+  movementSetter,
 }) => {
-  const [xAxis, setXAxis] = useState(template.data.cursorMove.x);
-  const [yAxis, setYAxis] = useState(template.data.cursorMove.y);
-
-  useEffect(() => {
-    setXAxis(template.data.cursorMove.x);
-    setYAxis(template.data.cursorMove.y);
-  }, [template]);
+  const [xAxis, setXAxis] = useState(movement.x);
+  const [yAxis, setYAxis] = useState(movement.y);
 
   const xAxisInputHandler = (newValue: any) => {
-    const updatedTemplate = template;
-    updatedTemplate.data.cursorMove.x = newValue.target.value;
-    templateSetter(updatedTemplate);
     setXAxis(newValue.target.value);
   };
   const yAxisInputHandler = (newValue: any) => {
-    const updatedTemplate = template;
-    updatedTemplate.data.cursorMove.y = newValue.target.value;
-    templateSetter(updatedTemplate);
     setYAxis(newValue.target.value);
   };
+
+  useEffect(() => {
+    movementSetter({ x: xAxis, y: yAxis });
+  }, [xAxis, yAxis]);
+
+  useEffect(() => {
+    setXAxis(movement.x);
+    setYAxis(movement.y);
+  }, [movement]);
   return (
     <div className="flex flex-col md:flex-row gap-8 items-center">
       <div>Set cursor coordinates:</div>

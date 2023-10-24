@@ -3,6 +3,7 @@ import { PageSizeSetter } from "@/components/PageSizeSetter";
 import { ChangeEvent, useEffect, useState } from "react";
 import {
   baseTemplate,
+  cursorMovementType,
   singleGraphTemplate,
   templateType,
 } from "../../public/graphTemplate";
@@ -20,14 +21,13 @@ export default function Generator() {
   const [generatedImage, setGeneratedImage] = useState("");
   const [generatedCode, setGeneratedCode] = useState("");
   const [graphs, setGraphs] = useState<singleGraphTemplate[] | []>([]);
+  const [cursorMovements, setCursorMovements] = useState<
+    cursorMovementType[] | []
+  >([]);
   const [graphNumber, setGraphNumber] = useState(0);
 
   const [status, setStatus] = useState<"idle" | "loading" | "finished">("idle");
   const [label, setLabel] = useState("default");
-
-  useEffect(() => {
-    setLabel(generateLabel());
-  }, []);
 
   const handleGenerateButtonClick = async () => {
     updateCode().then(callGeneration).then(getImage);
@@ -91,6 +91,17 @@ export default function Generator() {
     setGraphNumber(graphNumber + 1);
   };
 
+  const addCursorMovement = () => {
+    console.log("ADD");
+    setCursorMovements([
+      ...cursorMovements,
+      {
+        x: 0,
+        y: 0,
+      },
+    ]);
+  };
+
   const removeGraph = (id: number) => {
     setGraphs((graphs: any) => graphs.filter((graph: any) => graph.id !== id));
   };
@@ -128,11 +139,42 @@ export default function Generator() {
     }
   };
 
+  const setInitialCursorMove = (movement: cursorMovementType) => {
+    const updatedData = gleData;
+    updatedData.data.cursorMove = movement;
+    setGleData(updatedData);
+  };
+
+  const updateCursorMovements = (
+    movement: cursorMovementType,
+    index: number
+  ) => {
+    setCursorMovements(
+      cursorMovements.map((item: cursorMovementType, i) => {
+        let tmp = item;
+        if (index === i) {
+          tmp = movement;
+        }
+        return tmp;
+      })
+    );
+  };
+
   useEffect(() => {
     let updatedData = gleData;
     updatedData.data.graph = graphs;
     setGleData(updatedData);
   }, [graphs]);
+
+  useEffect(() => {
+    let updatedData = gleData;
+    updatedData.data.cursorMovements = cursorMovements;
+    setGleData(updatedData);
+  }, [cursorMovements]);
+
+  useEffect(() => {
+    setLabel(generateLabel());
+  }, []);
 
   return (
     <div className="w-full flex flex-col gap-8">
@@ -178,7 +220,10 @@ export default function Generator() {
             <PageSizeSetter template={gleData} templateSetter={setGleData} />
           </div>
           <div className="card">
-            <CursorMove template={gleData} templateSetter={setGleData} />
+            <CursorMove
+              movement={gleData.data.cursorMove}
+              movementSetter={setInitialCursorMove}
+            />
           </div>
           <div className="flex flex-col gap-4 card">
             {graphs.map((graph: any) => {
@@ -193,6 +238,25 @@ export default function Generator() {
                 </div>
               );
             })}
+            {cursorMovements.length > 0 && (
+              <div className="flex flex-col gap-4 inner">
+                {cursorMovements.map(
+                  (movement: cursorMovementType, index: number) => {
+                    return (
+                      <div key={index}>
+                        <CursorMove
+                          movement={movement}
+                          movementSetter={(movement) =>
+                            updateCursorMovements(movement, index)
+                          }
+                        ></CursorMove>
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            )}
+
             <DropDownMenu
               dropDownButton={
                 <button className="bg-blue-700 hover:bg-blue-500 p-4 rounded w-5/6">
@@ -211,7 +275,9 @@ export default function Generator() {
                 </button>
                 <button
                   className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
-                  onClick={() => {}}
+                  onClick={() => {
+                    addCursorMovement();
+                  }}
                 >
                   Add Cursor Move
                 </button>
