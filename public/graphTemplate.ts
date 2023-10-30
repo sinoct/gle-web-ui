@@ -5,17 +5,31 @@ export const baseTemplate: templateType = {
       height: 24,
     },
     cursorMove: {
+      type: "cursor",
       x: 2,
       y: 10,
     },
-    graph: null,
-    cursorMovements: null,
-    key: null,
+    renderObjects: null,
+    keys: null,
   },
 };
 
+export interface templateType {
+  data: {
+    pageSize: {
+      width: number;
+      height: number;
+    };
+    cursorMove: cursorMovementType;
+    renderObjects:
+      | (singleGraphTemplate | cursorMovementType | textType)[]
+      | null;
+    keys: keyTemplate[] | null;
+  };
+}
 export interface singleGraphTemplate {
   id: number;
+  type: "graph";
   size: {
     width: number;
     height: number;
@@ -42,19 +56,6 @@ export interface barGraphSettings {
   color?: string;
   width?: string;
   fill?: string;
-}
-
-export interface templateType {
-  data: {
-    pageSize: {
-      width: number;
-      height: number;
-    };
-    cursorMove: cursorMovementType;
-    graph: singleGraphTemplate[] | null;
-    cursorMovements: cursorMovementType[] | null;
-    key: keyTemplate | null;
-  };
 }
 
 export interface axisType {
@@ -87,6 +88,8 @@ export interface displayElementType {
 }
 
 export interface cursorMovementType {
+  id?: number;
+  type: "cursor";
   x: number;
   y: number;
 }
@@ -96,4 +99,13 @@ export interface keyTemplate {
   offset: cursorMovementType;
   height: number;
   nobox: boolean;
+  text: string;
+}
+
+export interface textType {
+  id: number;
+  type: "text";
+  text: string;
+  height: number;
+  color: string;
 }

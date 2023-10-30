@@ -6,6 +6,7 @@ import {
   cursorMovementType,
   singleGraphTemplate,
   templateType,
+  textType,
 } from "../../public/graphTemplate";
 import { generateCode } from "@/utils/templateSetter";
 import CursorMove from "@/components/CursorMove";
@@ -15,16 +16,21 @@ import GeneratedComponent from "@/components/GeneratedComponent";
 import DropDownMenu from "@/components/DropdownMenu";
 import { toStringFromBase64 } from "@/utils/base64Handler";
 import { generateLabel } from "@/utils/labelHelper";
+import TextEditor from "@/components/TextEditor";
+import RenderObjectComponent from "@/components/RenderObjectComponent";
 
 export default function Generator() {
   const [gleData, setGleData] = useState(baseTemplate);
   const [generatedImage, setGeneratedImage] = useState("");
   const [generatedCode, setGeneratedCode] = useState("");
-  const [graphs, setGraphs] = useState<singleGraphTemplate[] | []>([]);
+  const [renderedObjects, setRenderedObjects] = useState<
+    (singleGraphTemplate | cursorMovementType | textType)[] | []
+  >([]);
   const [cursorMovements, setCursorMovements] = useState<
     cursorMovementType[] | []
   >([]);
-  const [graphNumber, setGraphNumber] = useState(0);
+  const [renderObjectId, setRenderObjectId] = useState(1);
+  const [texts, setTexts] = useState<textType[] | []>([]);
 
   const [status, setStatus] = useState<"idle" | "loading" | "finished">("idle");
   const [label, setLabel] = useState("default");
@@ -71,10 +77,11 @@ export default function Generator() {
   };
 
   const addGraph = () => {
-    setGraphs([
-      ...graphs,
+    setRenderedObjects([
+      ...renderedObjects,
       {
-        id: graphNumber,
+        id: renderObjectId,
+        type: "graph",
         size: { width: 14, height: 12 },
         dataSources: [],
         displayElements: [],
@@ -88,33 +95,54 @@ export default function Generator() {
         },
       },
     ]);
-    setGraphNumber(graphNumber + 1);
+    setRenderObjectId(renderObjectId + 1);
   };
 
   const addCursorMovement = () => {
-    console.log("ADD");
-    setCursorMovements([
-      ...cursorMovements,
+    setRenderedObjects([
+      ...renderedObjects,
       {
+        id: renderObjectId,
+        type: "cursor",
         x: 0,
         y: 0,
       },
     ]);
+    setRenderObjectId(renderObjectId + 1);
+  };
+
+  const addTextEditor = () => {
+    setRenderedObjects([
+      ...renderedObjects,
+      {
+        id: renderObjectId,
+        type: "text",
+        color: "black",
+        height: 1,
+        text: "",
+      },
+    ]);
+    setRenderObjectId(renderObjectId + 1);
   };
 
   const removeGraph = (id: number) => {
-    setGraphs((graphs: any) => graphs.filter((graph: any) => graph.id !== id));
+    setRenderedObjects(
+      (objects: (singleGraphTemplate | cursorMovementType | textType)[]) =>
+        objects.filter((item) => item.id != id)
+    );
   };
 
   const updateGraph = (updatedGraph: singleGraphTemplate) => {
-    setGraphs(
-      graphs.map((graph: singleGraphTemplate) => {
-        let tmp = graph;
-        if (graph.id === updatedGraph.id) {
-          tmp = updatedGraph;
+    setRenderedObjects(
+      renderedObjects.map(
+        (item: singleGraphTemplate | cursorMovementType | textType) => {
+          let tmp = item;
+          if (item.id === updatedGraph.id) {
+            tmp = updatedGraph;
+          }
+          return tmp;
         }
-        return tmp;
-      })
+      )
     );
   };
 
@@ -131,8 +159,8 @@ export default function Generator() {
           toStringFromBase64(encoded)
         ) as templateType;
         setGleData(importedObject);
-        if (importedObject.data.graph) {
-          setGraphs(importedObject.data.graph);
+        if (importedObject.data.renderObjects) {
+          //setGraphs(importedObject.data.graph);
         }
       };
       reader.readAsDataURL(event.target.files[0]);
@@ -162,15 +190,9 @@ export default function Generator() {
 
   useEffect(() => {
     let updatedData = gleData;
-    updatedData.data.graph = graphs;
+    updatedData.data.renderObjects = renderedObjects;
     setGleData(updatedData);
-  }, [graphs]);
-
-  useEffect(() => {
-    let updatedData = gleData;
-    updatedData.data.cursorMovements = cursorMovements;
-    setGleData(updatedData);
-  }, [cursorMovements]);
+  }, [renderedObjects]);
 
   useEffect(() => {
     setLabel(generateLabel());
@@ -226,7 +248,21 @@ export default function Generator() {
             />
           </div>
           <div className="flex flex-col gap-4 card">
-            {graphs.map((graph: any) => {
+            {renderedObjects.map((renderItem) => {
+              return (
+                <RenderObjectComponent
+                  key={renderItem.id}
+                  renderItem={renderItem}
+                  graphSetter={updateGraph}
+                  graphRemover={removeGraph}
+                  cursorUpdater={updateCursorMovements}
+                  label={label}
+                />
+              );
+            })}
+          </div>
+          <div className="flex flex-col gap-4 card">
+            {/* {graphs.map((graph: any) => {
               return (
                 <div key={graph.id}>
                   <GraphEditor
@@ -237,8 +273,8 @@ export default function Generator() {
                   />
                 </div>
               );
-            })}
-            {cursorMovements.length > 0 && (
+            })} */}
+            {/* {cursorMovements.length > 0 && (
               <div className="flex flex-col gap-4 inner">
                 {cursorMovements.map(
                   (movement: cursorMovementType, index: number) => {
@@ -255,7 +291,18 @@ export default function Generator() {
                   }
                 )}
               </div>
-            )}
+            )} */}
+            {/* {texts.length > 0 && (
+              <div className="inner">
+                {texts.map((text: textType, index: number) => {
+                  return (
+                    <div key={index}>
+                      <TextEditor textData={text} index={index} />
+                    </div>
+                  );
+                })}
+              </div>
+            )} */}
 
             <DropDownMenu
               dropDownButton={
@@ -283,7 +330,9 @@ export default function Generator() {
                 </button>
                 <button
                   className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
-                  onClick={() => {}}
+                  onClick={() => {
+                    addTextEditor();
+                  }}
                 >
                   Add Text
                 </button>
