@@ -1,5 +1,5 @@
 import { templateType } from "../../public/graphTemplate";
-import { generateGraphText } from "./templateTextGenerators";
+import { generateRenderObjectCode } from "./templateTextGenerators";
 
 export const generateText = (data: templateType) => {
   const params = data.data;
@@ -7,9 +7,9 @@ export const generateText = (data: templateType) => {
   if (params.cursorMove) {
     text += `\namove ${params.cursorMove.x} ${params.cursorMove.y} \n`;
   }
-  if (params.graph) {
-    params.graph.map((currentGraph, index) => {
-      text += generateGraphText(currentGraph, index);
+  if (params.renderObjects) {
+    params.renderObjects.map((item, index) => {
+      text += generateRenderObjectCode(item, index);
     });
   }
   return text;
