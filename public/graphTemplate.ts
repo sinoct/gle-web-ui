@@ -75,7 +75,6 @@ export interface axisType {
 
 export interface dataSourceType {
   fileName: string;
-  data: string;
   name: string;
   columnX: number;
   columnY: number;
@@ -105,7 +104,9 @@ export interface keyTemplate {
 export interface textType {
   id: number;
   type: "text";
+  offset: cursorMovementType;
   text: string;
   height: number;
+  nobox: boolean;
   color: string;
 }

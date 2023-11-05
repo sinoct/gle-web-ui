@@ -41,6 +41,7 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
       },
     });
   };
+
   const heightInputHandler = (newValue: any) => {
     setCurrentGraph({
       ...currentGraph,
@@ -100,7 +101,6 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
       columnY: 2,
       name: `d${dataSourceNumber}`,
       fileName: "",
-      data: "",
     });
 
     setCurrentGraph({
@@ -117,13 +117,6 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
       settings: {
         type: "Line",
         line: false,
-        marker: undefined,
-        color: undefined,
-        style: undefined,
-        impulses: undefined,
-        smooth: undefined,
-        deresolve: undefined,
-        key: undefined,
       },
       id: displayElementNumber,
     });
@@ -241,6 +234,7 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
                   fileNameChangeHandler(index, name)
                 }
                 label={label}
+                tooltip=""
               />
               Which columns should the graph show?
               <div className="flex flex-col md:flex-row items-center gap-2">
@@ -281,7 +275,7 @@ const GraphEditor: FunctionComponent<GraphEditorProps> = ({
                         name={displayElement.name}
                         settings={displayElement.settings}
                         stateUpdater={updateDisplayElements}
-                      ></DisplayEditor>
+                      />
                     </div>
                   )}
                 </>

@@ -1,6 +1,6 @@
 "use client";
 import { PageSizeSetter } from "@/components/PageSizeSetter";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   baseTemplate,
   cursorMovementType,
@@ -11,13 +11,12 @@ import {
 import { generateCode } from "@/utils/templateSetter";
 import CursorMove from "@/components/CursorMove";
 
-import GraphEditor from "@/components/graphs/GraphEditor";
 import GeneratedComponent from "@/components/GeneratedComponent";
 import DropDownMenu from "@/components/DropdownMenu";
 import { toStringFromBase64 } from "@/utils/base64Handler";
 import { generateLabel } from "@/utils/labelHelper";
-import TextEditor from "@/components/TextEditor";
 import RenderObjectComponent from "@/components/RenderObjectComponent";
+import Link from "next/link";
 
 export default function Generator() {
   const [gleData, setGleData] = useState(baseTemplate);
@@ -30,7 +29,6 @@ export default function Generator() {
     cursorMovementType[] | []
   >([]);
   const [renderObjectId, setRenderObjectId] = useState(1);
-  const [texts, setTexts] = useState<textType[] | []>([]);
 
   const [status, setStatus] = useState<"idle" | "loading" | "finished">("idle");
   const [label, setLabel] = useState("default");
@@ -118,6 +116,12 @@ export default function Generator() {
         id: renderObjectId,
         type: "text",
         color: "black",
+        offset: {
+          type: "cursor",
+          x: 0,
+          y: 0,
+        },
+        nobox: false,
         height: 1,
         text: "",
       },
@@ -125,24 +129,27 @@ export default function Generator() {
     setRenderObjectId(renderObjectId + 1);
   };
 
-  const removeGraph = (id: number) => {
-    setRenderedObjects(
-      (objects: (singleGraphTemplate | cursorMovementType | textType)[]) =>
-        objects.filter((item) => item.id != id)
-    );
-  };
-
-  const updateGraph = (updatedGraph: singleGraphTemplate) => {
+  const updateRenderObject = (
+    updatedItem: singleGraphTemplate | cursorMovementType | textType
+  ) => {
+    console.log("RENDER UPDATE:", updatedItem);
     setRenderedObjects(
       renderedObjects.map(
         (item: singleGraphTemplate | cursorMovementType | textType) => {
           let tmp = item;
-          if (item.id === updatedGraph.id) {
-            tmp = updatedGraph;
+          if (item.id === updatedItem.id) {
+            tmp = updatedItem;
           }
           return tmp;
         }
       )
+    );
+  };
+
+  const removeRenderedObject = (id: number) => {
+    setRenderedObjects(
+      (objects: (singleGraphTemplate | cursorMovementType | textType)[]) =>
+        objects.filter((item) => item.id != id)
     );
   };
 
@@ -232,12 +239,17 @@ export default function Generator() {
               >
                 Import
               </button>
+              <Link href={"/history"}>
+                <div className="bg-blue-700 hover:bg-blue-500 p-4 rounded-md text-base">
+                  History
+                </div>
+              </Link>
             </div>
           </DropDownMenu>
         </div>
       </div>
       <div className="flex flex-col-reverse lg:flex-row gap-4">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-full">
           <div className="card">
             <PageSizeSetter template={gleData} templateSetter={setGleData} />
           </div>
@@ -247,20 +259,18 @@ export default function Generator() {
               movementSetter={setInitialCursorMove}
             />
           </div>
-          <div className="flex flex-col gap-4 card">
-            {renderedObjects.map((renderItem) => {
-              return (
+          {renderedObjects.map((renderItem) => {
+            return (
+              <div className="flex flex-col gap-4 card" key={renderItem.id}>
                 <RenderObjectComponent
-                  key={renderItem.id}
                   renderItem={renderItem}
-                  graphSetter={updateGraph}
-                  graphRemover={removeGraph}
-                  cursorUpdater={updateCursorMovements}
+                  itemUpdater={updateRenderObject}
+                  itemRemover={removeRenderedObject}
                   label={label}
                 />
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
           <div className="flex flex-col gap-4 card">
             {/* {graphs.map((graph: any) => {
               return (
@@ -340,13 +350,14 @@ export default function Generator() {
             </DropDownMenu>
           </div>
         </div>
-        <div className="flex">
+        <div className="flex w-full">
           {generatedImage ? (
             <GeneratedComponent
               generatedCode={generatedCode}
               generatedImage={generatedImage}
               getImage={getImage}
               status={status}
+              label={label}
             />
           ) : (
             <div className="text-2xl text-center flex justify-center w-full">

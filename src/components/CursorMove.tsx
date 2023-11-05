@@ -3,11 +3,13 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { cursorMovementType } from "../../public/graphTemplate";
 
 interface CursorMoveProps {
+  label?: string;
   movement: cursorMovementType;
   movementSetter: (movement: cursorMovementType) => void;
 }
 
 const CursorMove: FunctionComponent<CursorMoveProps> = ({
+  label,
   movement,
   movementSetter,
 }) => {
@@ -22,7 +24,7 @@ const CursorMove: FunctionComponent<CursorMoveProps> = ({
   };
 
   useEffect(() => {
-    movementSetter({ x: xAxis, y: yAxis });
+    movementSetter({ type: "cursor", x: xAxis, y: yAxis });
   }, [xAxis, yAxis]);
 
   useEffect(() => {
@@ -31,7 +33,7 @@ const CursorMove: FunctionComponent<CursorMoveProps> = ({
   }, [movement]);
   return (
     <div className="flex flex-col md:flex-row gap-8 items-center">
-      <div>Set cursor coordinates:</div>
+      <div>{label || "Set cursor coordinates:"}</div>
       <div className="flex flex-col gap-1">
         <label htmlFor="xAxis">X Axis</label>
         <input

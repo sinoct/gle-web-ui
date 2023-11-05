@@ -10,17 +10,15 @@ import TextEditor from "./TextEditor";
 
 interface RenderObjectProps {
   renderItem: singleGraphTemplate | cursorMovementType | textType;
-  graphSetter: any;
-  graphRemover: any;
-  cursorUpdater: any;
+  itemUpdater: any;
+  itemRemover: any;
   label: string;
 }
 
 const RenderObjectComponent: FunctionComponent<RenderObjectProps> = ({
   renderItem,
-  graphSetter,
-  graphRemover,
-  cursorUpdater,
+  itemUpdater,
+  itemRemover,
   label,
 }) => {
   const createRenderObject = (
@@ -32,8 +30,8 @@ const RenderObjectComponent: FunctionComponent<RenderObjectProps> = ({
           <div>
             <GraphEditor
               graph={renderObject}
-              graphSetter={graphSetter}
-              removeGraph={graphRemover}
+              graphSetter={itemUpdater}
+              removeGraph={itemRemover}
               label={label}
             />
           </div>
@@ -43,14 +41,17 @@ const RenderObjectComponent: FunctionComponent<RenderObjectProps> = ({
           <div>
             <CursorMove
               movement={renderObject}
-              movementSetter={(movement) => cursorUpdater(movement)}
+              movementSetter={(movement) => itemUpdater(movement)}
             />
           </div>
         );
       case "text":
         return (
           <div>
-            <TextEditor textData={renderObject} />
+            <TextEditor
+              textData={renderObject}
+              textSetter={(textData) => itemUpdater(textData)}
+            />
           </div>
         );
     }

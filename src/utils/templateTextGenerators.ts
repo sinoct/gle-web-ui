@@ -5,11 +5,10 @@ import {
 } from "../../public/graphTemplate";
 
 export const generateRenderObjectCode = (
-  renderObject: singleGraphTemplate | cursorMovementType | textType,
-  index: number
+  renderObject: singleGraphTemplate | cursorMovementType | textType
 ) => {
   let renderText = "";
-  console.log(renderObject);
+  console.log("RENDEROBJECT", renderObject);
   switch (renderObject.type) {
     case "graph":
       renderText += `begin graph\n  size ${renderObject.size.width} ${
@@ -44,9 +43,8 @@ export const generateRenderObjectCode = (
         renderText += ` data ${source.fileName} ${source.name}=c${source.columnX}, c${source.columnY}\n`;
       });
       renderObject.displayElements.map((displayElement) => {
-        console.log("DISPLAY", displayElement);
         if (displayElement.settings.type === "Line") {
-          renderText += `${displayElement.name} ${
+          renderText += `  ${displayElement.name} ${
             displayElement.settings.line ? "line" : ""
           } ${
             displayElement.settings.marker
@@ -88,12 +86,21 @@ export const generateRenderObjectCode = (
           } `;
         }
       });
-      renderText += `\n end graph`;
+      renderText += `\nend graph\n`;
+      break;
     case "cursor":
       renderText += `\namove ${(renderObject as cursorMovementType).x} ${
         (renderObject as cursorMovementType).y
       } \n`;
+      break;
     case "text":
+      const textObject = renderObject as textType;
+      renderText += `\nbegin key${textObject.nobox ? "" : "\nnobox"}\n offset ${
+        textObject.offset.x
+      } ${textObject.offset.y}\n hei ${textObject.height}\n text "${
+        textObject.text
+      }"\nend key\n`;
+      break;
   }
 
   // if (renderObject.settings?.type === "Line") {

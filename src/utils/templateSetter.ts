@@ -8,8 +8,8 @@ export const generateText = (data: templateType) => {
     text += `\namove ${params.cursorMove.x} ${params.cursorMove.y} \n`;
   }
   if (params.renderObjects) {
-    params.renderObjects.map((item, index) => {
-      text += generateRenderObjectCode(item, index);
+    params.renderObjects.map((item) => {
+      text += generateRenderObjectCode(item);
     });
   }
   return text;

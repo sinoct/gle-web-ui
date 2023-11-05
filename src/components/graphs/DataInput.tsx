@@ -23,7 +23,6 @@ const DataInput: FunctionComponent<DataInputProps> = ({
   };
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      console.log(event.target.files[0]);
       const reader = new FileReader();
       reader.onloadend = () => {
         let encoded = reader!.result!.toString().replace(/^data:(.*,)?/, "");
