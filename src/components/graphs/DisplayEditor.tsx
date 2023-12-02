@@ -41,7 +41,7 @@ const DisplayEditor: FunctionComponent<DisplayEditorProps> = ({
     stateUpdater(elementSettings, id);
   }, [elementSettings]);
   return (
-    <div className="py-2 flex flex-col md:flex-row">
+    <div className="py-2 flex flex-col">
       <div className="display mt-2">
         <h1>Graph Settings:</h1>
         <div className="py-2">

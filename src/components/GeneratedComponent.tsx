@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import Image from "next/image";
-import { downloadFile } from "@/utils/templateSetter";
+import { downloadFile } from "@/utils/templateHandler";
 
 interface GeneratedProps {
   generatedImage: string;
@@ -99,7 +99,7 @@ const GeneratedComponent: FunctionComponent<GeneratedProps> = ({
               <>
                 <button
                   className="bg-blue-700 hover:bg-blue-500 p-4 rounded"
-                  onClick={() => downloadFile(generatedCode)}
+                  onClick={() => downloadFile(codeText)}
                 >
                   Download
                 </button>

@@ -1,6 +1,5 @@
 import { FunctionComponent, useState } from "react";
 import Image from "next/image";
-import { JsxElement } from "typescript";
 
 interface DropDownMenuProps {
   children: any;
@@ -26,7 +25,7 @@ const DropDownMenu: FunctionComponent<DropDownMenuProps> = ({
         {dropDownButton}
       </div>
       <div
-        className={`transition-all duration-500 bg-gray-500 absolute right-0 rounded ${
+        className={`transition-all duration-500 bg-gray-500 absolute right-0 rounded min-w-max ${
           isOpen ? "max-h-96 p-4 z-50" : "max-h-0"
         } overflow-hidden`}
         onClick={() => setIsOpen(!isOpen)}

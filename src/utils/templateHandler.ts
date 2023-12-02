@@ -38,8 +38,5 @@ export const generateCode = async (data: templateType, label: string) => {
   } catch (e) {
     console.log(e);
   }
-
-  //TODO: invoke it on a download button click
-  // downloadFile(text);
   return text;
 };

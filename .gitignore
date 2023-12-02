@@ -36,5 +36,5 @@ yarn-error.log*
 next-env.d.ts
 
 #generated
-#/generated
+/generated
 /helper-scripts

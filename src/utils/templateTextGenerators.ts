@@ -8,7 +8,6 @@ export const generateRenderObjectCode = (
   renderObject: singleGraphTemplate | cursorMovementType | textType
 ) => {
   let renderText = "";
-  console.log("RENDEROBJECT", renderObject);
   switch (renderObject.type) {
     case "graph":
       renderText += `begin graph\n  size ${renderObject.size.width} ${
@@ -97,49 +96,11 @@ export const generateRenderObjectCode = (
       const textObject = renderObject as textType;
       renderText += `\nbegin key${textObject.nobox ? "" : "\nnobox"}\n offset ${
         textObject.offset.x
-      } ${textObject.offset.y}\n hei ${textObject.height}\n text "${
-        textObject.text
-      }"\nend key\n`;
+      } ${textObject.offset.y}\n ${
+        textObject.color ? `color ${textObject.color}` : ""
+      } hei ${textObject.height}\n text "${textObject.text}"\nend key\n`;
       break;
   }
-
-  // if (renderObject.settings?.type === "Line") {
-  //   renderText += `begin graph\n  size ${renderObject.size.width} ${
-  //     renderObject.size.height
-  //   }\n  data ${renderObject.fileName} d${index + 1}=c${renderObject.columnX},c${
-  //     renderObject.columnY
-  //   }\n`;
-  //   renderText += `  d${index + 1} ${renderObject.settings?.line ? "line" : ""} ${
-  //     renderObject.settings?.marker
-  //       ? `marker ${renderObject.settings?.marker}`
-  //       : ""
-  //   } ${
-  //     renderObject.settings?.color ? `color ${renderObject.settings?.color}` : ""
-  //   } ${
-  //     renderObject.settings?.style ? `lstyle ${renderObject.settings.style}` : ""
-  //   } ${renderObject.settings?.smooth ? "smooth" : ""} ${
-  //     renderObject.settings?.impulses ? "impulses" : ""
-  //   } ${
-  //     renderObject.settings?.deresolve
-  //       ? `deresolve ${renderObject.settings.deresolve}`
-  //       : ""
-  //   } ${renderObject.settings?.key ? `key ${renderObject.settings.key}` : ""}\n`;
-  //   renderText += "end graph";
-  // } else {
-  //   renderText += `begin graph\n  size ${renderObject.size.width} ${
-  //     renderObject.size.height
-  //   }\n  data ${renderObject.fileName} d${index + 1}=c${renderObject.columnX},c${
-  //     renderObject.columnY
-  //   }\n`;
-  //   renderText += `  bar d${index + 1}   ${
-  //     renderObject.settings?.color ? `color ${renderObject.settings?.color}` : ""
-  //   } ${
-  //     renderObject.settings?.width ? `width ${renderObject.settings.width}` : ""
-  //   } ${
-  //     renderObject.settings?.fill ? `fill ${renderObject.settings.fill}` : ""
-  //   }  \n`;
-  //   renderText += "end graph";
-  // }
 
   return renderText;
 };

@@ -1,6 +1,8 @@
 import { TemplateSetterProps } from "@/app/types/types";
 import { FunctionComponent, useEffect, useState } from "react";
 import { cursorMovementType } from "../../public/graphTemplate";
+import Image from "next/image";
+import TooltipComponent from "./TooltipComponent";
 
 interface CursorMoveProps {
   label?: string;
@@ -32,7 +34,14 @@ const CursorMove: FunctionComponent<CursorMoveProps> = ({
     setYAxis(movement.y);
   }, [movement]);
   return (
-    <div className="flex flex-col md:flex-row gap-8 items-center">
+    <div className="flex flex-col md:flex-row gap-8 items-center relative">
+      <div className="absolute right-2 top-1 cursor-pointer">
+        <TooltipComponent
+          text={
+            "This will set the cursor position to the set coordinates, calculated from the bottom left corner."
+          }
+        />
+      </div>
       <div>{label || "Set cursor coordinates:"}</div>
       <div className="flex flex-col gap-1">
         <label htmlFor="xAxis">X Axis</label>

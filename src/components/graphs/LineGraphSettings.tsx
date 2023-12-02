@@ -72,8 +72,8 @@ const LineGraphSettings: FunctionComponent<LineGraphSettingsProps> = ({
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex items-center flex-col gap-1">
-        <label className="flex gap-4 items-center">
+      <div className="flex flex-col gap-1">
+        <label className="flex flex-col md:flex-row gap-4 items-center">
           Line:
           <input
             type="checkbox"

@@ -8,7 +8,7 @@ import {
   templateType,
   textType,
 } from "../../public/graphTemplate";
-import { generateCode } from "@/utils/templateSetter";
+import { generateCode } from "@/utils/templateHandler";
 import CursorMove from "@/components/CursorMove";
 
 import GeneratedComponent from "@/components/GeneratedComponent";
@@ -40,11 +40,6 @@ export default function Generator() {
   const updateCode = async () => {
     const code = await generateCode(gleData, label);
     setGeneratedCode(code);
-    setStatus("loading");
-    setTimeout(async () => {
-      await getImage();
-      setStatus("finished");
-    }, 1000);
   };
 
   const callGeneration = async () => {
